@@ -1,0 +1,69 @@
+---
+title: "ontologySimilarity"
+author: "Daniel Greene"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ontologySimilarity}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+`ontologySimilarity` uses `ontologyIndex`'s `ontology_index` classed objects to access information about a given ontology, and character vectors of term IDs to refer to terms. It has functions for calculating:
+
+* similarities between terms (based on *information content*, using the similarity function of Resnik or Lin), `get_term_sim_mat`
+* similarity between sets of term sets, `get_sim_mat` and `get_sim_grid`
+* statistical significance of similarity of *term set* to an ontological profile (i.e. another term set), `get_sim_to_profile` (*p*-value estimated by permutation of terms included in *term set*)
+* group similarity of `n` term sets, `get_sim`
+* statistical significance of similarity of set of term sets, `get_sim_p` (again, *p*-value estimated by permutation)
+
+## Set up
+
+To try out the package, we first load the `ontologyIndex` package to get an example `ontology_index` object, the Human Phenotype Ontology, `hpo`. 
+
+```{r}
+suppressPackageStartupMessages(library(ontologyIndex))
+suppressPackageStartupMessages(library(ontologySimilarity))
+data(hpo)
+set.seed(1)
+```
+
+Next, choose a random vector of term IDs to be the global set of terms (we'll use this to sample term sets from). To get the *between term* similarities, we need to assign an *information content* to each term. Ordinarily, this might be based on frequency of annotation in a database (for example, the proportion of diseases which are annotated with a particular term), or on some estimate of population frequency. Here we use an information content based on each term having a hypothetical frequency `1/length(terms)`. Once we have the global set of terms, `terms` and `information_content`, we can compute a matrix of similarities between terms - `tsm`. 
+```{r}
+#random set of terms with ancestors
+terms <- get_ancestors(hpo, sample(hpo$id, size=30))
+
+#set information content of terms (as if each term occurs with frequency `1/n`)
+information_content <- get_term_info_content(hpo, term_sets=as.list(terms))
+
+#similarity of term pairs
+tsm <- get_term_sim_mat(hpo, information_content)
+```
+
+To try the functions for calculating between term-sets, we need to sample some term sets. We'll sample 5 random term sets (call them *phenotypes*) with (at most) 8 terms from `terms` (removing redundant ones using the `minimal_set` from the `ontologyIndex` package).
+```{r}
+phenotypes <- replicate(simplify=FALSE, n=5, expr=minimal_set(hpo, sample(terms, size=8)))
+```
+
+## Calculations
+
+Similarity matrix, containing between term-set similarities:
+```{r}
+sim_mat <- get_sim_mat(tsm, phenotypes)
+sim_mat
+```
+
+Group similarity of phenotypes 1-3:
+```{r}
+get_sim(sim_mat, 1:3)
+```
+
+Group similarity *p*-value of group of phenotypes 1-3:
+```{r}
+get_sim_p(sim_mat, 1:3)
+```
+
+Similarity *p*-value of phenotype 2 to phenotype 1 (taking phenotype 1 as the 'profile'):
+```{r}
+get_sim_to_profile_p(tsm, phenotypes[[1]], phenotypes[[2]])
+```
