@@ -1,0 +1,147 @@
+---
+title: "ontologySimilarity - Examples"
+author: "Daniel Greene"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ontologySimilarity-examples}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+```{r echo=FALSE}
+knitr::opts_chunk$set(dev="svg", fig.width=7, fig.height=5, dev="svg")
+```
+
+This vignette demonstrates how some typical simple analyses can be done with `ontologySimilarilty`.
+
+* **Computing similarity matrices** - pairwise similarities of ontologically annotated objects, e.g. for use in clustering.
+* **Assessing statistical significance of similarity** - by computing a *p*-value by permutation - either within subgroup of population of ontologically annotated objects, or between members of a subgroup and a foreign object.
+
+## Computing similarity matrices
+
+Similarity matrices can be computed with the function `get_sim_grid`. Full detail on using the function can be found in the help file: `?get_sim_grid`, but briefly, the typical ingredients for computing a similarity matrix are:
+
+* An `ontology_index` object, e.g. `hpo` obtained with `data(hpo)`
+* A `numeric` vector of information contents named by term, e.g. see `get_term_info_content` in the `ontologyIndex` package. Defaults to `descendants_IC(ontology)`.
+* Some term sets - i.e. a collection of ontologically annotated objects, or from R's point-of-view: a `list` of `character` vectors of term IDs. Typically, term annotations are stored in delimited lists in tables, so `strsplit`ting the column of a `data.frame` is often needed. 
+* A choice of term similarity - either `"lin"` or `"resnik"`.
+
+```{r}
+library(ontologyIndex)
+library(ontologySimilarity)
+data(hpo)
+set.seed(1)
+
+information_content <- descendants_IC(hpo)
+
+term_sets <- replicate(simplify=FALSE, n=7, expr=minimal_set(hpo, sample(hpo$id, size=8)))
+
+sim_mat <- get_sim_grid(ontology=hpo, term_sets=term_sets)
+sim_mat
+```
+
+`sim_mat` can then of course be used by other packages' clustering functions. Note that many of these expect a distance matrix, not a similarity matrix. Thus transformation may be required, e.g.
+
+```{r}
+dist_mat <- max(sim_mat) - sim_mat
+plot(hclust(as.dist(dist_mat)))
+```
+
+## Assessing statistical significance of similarity
+
+Given a collection of objects annotated with ontological terms, you can represent them as a list of character vectors of term IDs for compatibility with `ontologySimilarity`'s functions: a list of term sets. 
+
+Given a particular subgroup of interest - for example, in the context of the collection of all genes' GO annotations, this could be a group of genes identified through an experiment - a natural question might be, 'are these objects as a group particularly similar to one another?'.
+
+We can attempt to answer that question by calculating a 'group similarity': a measure of similarity for a group of ontologically annotated objects, or 'list of term sets'. `ontologySimilarity` supports two different methods for calculating the similarity of a group.
+
+* `"average"` - taking the average similarity over all pairs of members.
+* `"min"` - taking the minimum similarity over all pairs of members.
+
+The function `get_sim` is used to calculate these similarities. The argument `group_sim` can be either `"average"` or `"min"` accordingly. 
+
+The value of the similarity itself doesn't tell you how similar the group members are relative to other subsets. So to evaluate the signficance of the group similarity of subset `S` within population of term sets `L`, we compute a *p*-value by permutation test: that is, we compute the proportion of the 'null' distribution of similarities of all subsets of the same size as `S` that are greater than the similarity of `S`.
+
+This is done by passing the indices of `S` within `L` to the function `get_sim_p`. Instead of computing the *p*-value exactly by comparing to the similarity of all `choose(length(L), length(S))` permutations, the function `get_sim_p` samples a specified maximum number of random subsets. 
+
+For efficiency in the situation where only statistically significant results are of interest, `get_sim_p` allows the user to configure a threshold triggering the sampling to stop early, should the strength of evidence against it being significant become strong enough. Precisely, this is done using the arguments:
+
+* `min_its` - the minimum number of samples to draw from the null distribution.
+* `max_its` - the maximum number of samples.
+* `signif` - *p*-value considered 'significant'.
+* `log_dismiss` - the threshold log probability of significance, below which sampling stops. Probability of significance is computed using the binomial approximation to the Normal. It is up to the user to decide whether this approximation is appropriate given the other parameters.
+
+The function `get_sim_p` requires an argument called `pop_sim` which stores information on the similarities of the entire collection of objects. Depending on the type of parameter you pass, it is done in different ways which suit different scenarios. 
+
+### Using a similarlity matrix
+
+One way is to pass a matrix having the similarity between all term set pairs. The null distribution is then estimated by measuring the similarity of random subsets of the matrix. This is the fastest method if such a matrix is available as it doesn't require any between-object similarities to be calculated. However computing such a matrix may be infeasible if `N` is large. Note that this method can be used for any matrix of similarities, and no references to ontologies are required.
+
+### Using a `sim_index` object
+
+One way is to pass an argument of class `sim_index` as created with the function `create_sim_index`. To create the index you need to pass the list of term sets and an ontology argument. Note that if you do not wish to store the `sim_index` object you can call the function `get_sim_p_from_ontology`. See `?create_sim_index` and `?get_sim_p_from_ontology` for more details. The null distribution of group similarities is then estimated by calculating group similarities of random subsets of `L`. This method is useful when you don't want to compute and store a similarity matrix - for example if N is large.
+
+See `?get_sim` and `?get_sim_p` for further details.
+
+### Example
+
+In this example we'll generate a collection 100 random sets of HPO terms and map them to minimal sets. We'll then assess whether the subgroup comprising the first 10 sets is significantly similar - first by using the `ontology_index` object and information content directly, then using a similarity matrix.
+
+```{r}
+collection <- replicate(simplify=FALSE, n=100, expr=minimal_set(hpo, sample(hpo$id, size=8)))
+
+#lets measure the group similarity of objects 1-10
+group <- 1:10
+
+get_sim_p_from_ontology(
+	ontology=hpo, 
+	information_content=information_content,
+	term_sets=collection,
+	group=group)
+
+sim_mat <- get_sim_grid(ontology=hpo, term_sets=collection)
+
+#p-value by "matrix" method
+get_sim_p(
+	sim_mat,
+	group=group)
+
+```
+
+### Against a vector
+
+Another scenario might be: you've measured the similarity between a collecton of ontologically annotated objects and a foreign object, and have obtained a vector of similarities, and now, you're interested in whether some subgroup of the collection are particularly similar on average. In this case you can pass a `numeric` vector to `get_sim_p`.
+
+In this example, we'll generate some hypothetical genes with GO annotation [i.e. randomly sample 8 GO terms per gene and map to minimal sets].  Then - supposing we are interested in genes which have functions bearing on the 'golgi apparatus' - use `get_profile_sims` to calculate the similarity of the genes to an 'ontological profile' containing golgi related terms. Finally - supposing for example genes 1-3 came up in the results of an experiment - we'll calculate a similarity *p*-value of genes 1-3 to the 'golgi GO profile' using `get_sim_p`, passing it the pre-computed profile similarities.
+
+```{r}
+data(go)
+
+genes <- replicate(simplify=FALSE, n=100, expr=minimal_set(go, sample(go$id, size=8)))
+names(genes) <- paste("gene", 1:length(genes))
+genes[1:3]
+
+go_profile <- as.character(go$id[grep(x=go$name, pattern="golgi apparatus", ignore.case=TRUE)])
+go$name[go_profile]
+
+profile_sims <- get_profile_sims(ontology=go, term_sets=genes, profile=go_profile)
+profile_sims
+
+#Note that you can pass character vectors to get_sim_p
+get_sim_p(profile_sims, c("gene 1", "gene 2", "gene 3"))
+```
+
+### Sampling the null distribution
+
+Because of the 'early stopping', `get_sim_p` should be sufficiently performant to loop or `lapply` over a long list of subgroups. However, *p*-values for groups of the same size are technically being computed by comparison with the same null distribution. Thus, if the number of applications required is *very* long, the user could consider storing the null distributions for particular group sizes, and computing *p*-values later by comparing with the actual group similarities (calculated with `get_sim`).
+
+The function `sample_group_sim` can be used to sample from the null distribution of similarities.
+
+```{r}
+group_sim <- get_sim(sim_mat, group=group)
+
+samples <- sample_group_sim(sim_mat, group_size=length(group))
+hist(samples)
+abline(v=group_sim, col="red")
+```
+

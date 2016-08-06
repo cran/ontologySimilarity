@@ -10,6 +10,9 @@ using namespace std;
 struct term_list
 {
 	term_list(Rcpp::IntegerVector, Rcpp::IntegerVector, int);
+	IntegerVector n_terms;
+	IntegerVector case_from;
+	IntegerVector case_to;
 	IntegerVector case_ids;
 	IntegerVector term_ids;
 	int num_cases;

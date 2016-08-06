@@ -1,0 +1,72 @@
+---
+title: "ontologySimilarity - Introduction"
+author: "Daniel Greene"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{ontologySimilarity-introduction}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\usepackage[utf8]{inputenc}
+---
+
+`ontologySimilarity` contains various functions for calculating semantic similarity between ontological objects. The functions operate on various kinds of object. It's useful to look out for particular parameter names, as each kind of object tends to be called the same thing by the functions.
+
+* `ontology` - Objects of class `ontologyIndex`, described in the package `ontologyIndex`.
+* `terms` - A `character` vector of term IDs - either representing terms individually, or terms which together annotate a particular thing, e.g. term IDs from the Gene Ontology (GO) representing the functional annotations of a gene.
+* `term_sets` - A `list` of `character` vectors of term IDs.
+* `information_content` - A `numeric` vector of information content values for individual terms, named by term IDs. Typically this would be used in an evaluation of either Resnik or Lin's between-term similarity expression.
+* `pop_sim` - An object which stores information about similarites of a population of (ontological) objects, either to one another or to some foreign object. Used to increase performance when many look-ups of similarity are required.
+
+Various kinds of similarity can be calculated, including:
+
+* similarity between individual terms,
+* similarity between sets of terms,
+* group similiarity of a list of term sets (e.g. taking the average similarity between all pairs of sets),
+* *p*-values for significance of group similiarity.
+
+Some key functions are:
+
+* `get_term_sim_mat` for pairwise term similarities which returns a matrix,
+* `get_sim_grid` for pairwise similarities between sets of terms which returns a matrix,
+* `get_sim` for group similarity,
+* `get_sim_p` for computing a *p*-value for group similarity.
+
+## Example
+
+To use the package, first load `ontologyIndex` and an `ontology_index` object. Here we demonstrate using the Human Phenotype Ontology, `hpo`. 
+
+```{r}
+library(ontologyIndex)
+library(ontologySimilarity)
+data(hpo)
+set.seed(1)
+```
+
+Next, we'll set the information content for the terms. This is typically based on some kind of 'population frequency', for example: the frequency with which the term is used, explicitly or implicity, to annotate objects in a database. Such frequency information is not always available, but it could still be useful to define the information content with respect to the frequency with which the term is an ancestor of other terms in the ontology (as this still captures the structure of the ontology).
+
+```{r}
+information_content <- descendants_IC(hpo)
+```
+
+Now we'll generate some random sets of terms. We'll sample 5 random term sets (which could for example represent the phenotypes of patients) of 8 terms. Note that here, we call the `minimal_set` function from the `ontologyIndex` package on each sample set to remove redundant terms. Typically, ontological annotations would be stored as such minimal sets, however if you are unsure, it is best to call `minimal_set` on each term set to guarantee the similarity expressions are faithfully evaluated (the package chooses not to map to minimal sets by default for speed).
+
+```{r}
+term_sets <- replicate(simplify=FALSE, n=5, expr=minimal_set(hpo, sample(hpo$id, size=8)))
+term_sets
+```
+
+Then one can calculate a similarity matrix, containing pairwise term-set similarities:
+```{r}
+sim_mat <- get_sim_grid(ontology=hpo, term_sets=term_sets)
+sim_mat
+```
+
+Group similarity of phenotypes 1-3, based on `sim_mat`:
+```{r}
+get_sim(sim_mat, group=1:3)
+```
+
+*p*-value for significance of similarity of phenotypes 1-3:
+```{r}
+get_sim_p(sim_mat, group=1:3)
+```

@@ -4,30 +4,28 @@
 \alias{get_term_sim_mat}
 \title{Get term-term similarity matrix}
 \usage{
-get_term_sim_mat(ontology, information_content,
-  term_descendancy_matrix = get_term_descendancy_matrix(ontology, rows =
-  get_ancestors(ontology, restrict_rows_to), cols = names(information_content)),
-  method = c("lin", "resnik"),
-  restrict_rows_to = names(information_content))
+get_term_sim_mat(ontology, information_content, method = "lin",
+  row_terms = names(information_content),
+  col_terms = names(information_content))
 }
 \arguments{
 \item{ontology}{\code{ontology_index} object.}
 
 \item{information_content}{Numeric vector of information contents of terms (named by term)}
 
-\item{term_descendancy_matrix}{Logical term descendancy matrix, dimensions symmetrically labelled by terms, and where by a cell value of TRUE indicates that the row is the ancestor of the column term (in the sense of the DAG structure of the HPO.}
+\item{method}{Character equalling either "lin" or "resnik" to use Lin or Resnik's expression for similarity of terms respectively.}
 
-\item{method}{Character vector - either "lin" (to use Lin's expression of similarity of terms) or "resnik" (to use Resnik's definition)}
+\item{row_terms}{Character vector of term IDs to appear as rows of result matrix.}
 
-\item{restrict_rows_to}{Restrict rows to Character vector of term names for which to compute corresponding similarities to all terms \code{information_content}}
+\item{col_terms}{Character vector of term IDs to appear as cols of result matrix.}
 }
 \value{
-Numeric matrix of term-term simliarities
+Numeric matrix of pairwise term similarities.
 }
 \description{
-Get term-term similarity matrix
+Get matrix of pairwise similarity of individual terms based on Lin's (default) or Resnik's information content-based expression.
 }
 \seealso{
-\code{\link{resnik}}, \code{\link{lin}}
+\code{\link{get_sim_grid}} \code{\link{resnik}}, \code{\link{lin}}
 }
 

@@ -7,14 +7,23 @@
 using namespace Rcpp;
 using namespace std;
 
+class Sampler
+{
+	public:
+		virtual IntegerVector new_sample(void) = 0;
+};
+
 inline int random_integer(int exc_max)
 {
 	return (int)(unif_rand() * (double)exc_max) % exc_max;
 }
 
-Rcpp::IntegerVector sample_int(int n, int r);
+void first_combination(IntegerVector item, size_t n);
+bool next_combination(IntegerVector item, size_t n, size_t N);
+
+IntegerVector sample_int(int n, int r);
 void set_sample(
-	Rcpp::IntegerVector sample,
+	IntegerVector sample,
 	int set_from,
 	int set_to,
 	int min_val,
@@ -22,36 +31,36 @@ void set_sample(
 );
 
 void set_sample(
-	Rcpp::IntegerVector sample,
+	IntegerVector sample,
 	int set_from,
 	int exc_set_to,
 	int min_val,
 	int exc_max_val
 );
 
-Rcpp::IntegerVector stratified_sample_int(
-	Rcpp::IntegerVector strata_sizes,
-	Rcpp::IntegerVector strata_sample_sizes
+IntegerVector stratified_sample_int(
+	IntegerVector strata_sizes,
+	IntegerVector strata_sample_sizes
 );
 
-class simple_sampler
+class simple_sampler : public Sampler
 {
 private:
 	int n;
 	int r;
 public:
 	simple_sampler(int, int);
-	Rcpp::IntegerVector new_sample(void);
+	IntegerVector new_sample(void);
 };
 
-class stratified_sampler
+class stratified_sampler : public Sampler
 {
 private:
-	Rcpp::IntegerVector strata_sizes;
-	Rcpp::IntegerVector strata_sample_sizes;
+	IntegerVector strata_sizes;
+	IntegerVector strata_sample_sizes;
 public:
-	stratified_sampler(Rcpp::IntegerVector, Rcpp::IntegerVector);
-	Rcpp::IntegerVector new_sample(void);
+	stratified_sampler(IntegerVector, IntegerVector);
+	IntegerVector new_sample(void);
 };
 
 #endif

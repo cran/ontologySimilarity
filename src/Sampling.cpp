@@ -3,9 +3,30 @@
 using namespace Rcpp;
 using namespace std;
 
-Rcpp::IntegerVector sample_int(int n, int r) {
-	Rcpp::IntegerVector result(r);
-	Rcpp::LogicalVector still_in(n);
+void first_combination(IntegerVector item, size_t n)
+{
+    for (size_t i = 0; i < n; ++i) {
+        item[i] = i;
+    }
+}
+
+bool next_combination(IntegerVector item, size_t n, size_t N)
+{
+    for (size_t i = 1; i <= n; ++i) {
+        if (item[n-i] < N-i) {
+            ++item[n-i];
+            for (size_t j = n-i+1; j < n; ++j) {
+                item[j] = item[j-1] + 1;
+            }
+            return true;
+        }
+    }
+    return false;
+}
+
+IntegerVector sample_int(int n, int r) {
+	IntegerVector result(r);
+	LogicalVector still_in(n);
 	for (int i = 0; i < n; i++)
 		still_in[i] = true;
 
@@ -20,20 +41,18 @@ Rcpp::IntegerVector sample_int(int n, int r) {
 }
 
 void set_sample(
-	Rcpp::IntegerVector sample,
+	IntegerVector sample,
 	int set_from,
 	int exc_set_to,
 	int min_val,
 	int exc_max_val
 ) {
-	Rcpp::LogicalVector still_in(exc_max_val - min_val);
+	LogicalVector still_in(exc_max_val - min_val);
 	for (int i = 0; i < (exc_max_val - min_val); i++)
 		still_in[i] = true;
 
 	for (int i = set_from; i < exc_set_to; i++) {
 		do {
-			//can't use c++ rand() if we want to share RNG state with R...
-			//sample[i] = min_val + rand() % (exc_max_val - min_val);
 			sample[i] = min_val + random_integer(exc_max_val - min_val);
 		}
 		while (!still_in[sample[i] - min_val]);
@@ -41,9 +60,9 @@ void set_sample(
 	}
 }
 
-Rcpp::IntegerVector stratified_sample_int(
-	Rcpp::IntegerVector strata_sizes,
-	Rcpp::IntegerVector strata_sample_sizes
+IntegerVector stratified_sample_int(
+	IntegerVector strata_sizes,
+	IntegerVector strata_sample_sizes
 ) {
 	int num_strata = strata_sizes.length();
 	int total_sample_size = 0;
@@ -53,7 +72,7 @@ Rcpp::IntegerVector stratified_sample_int(
 		total_items += strata_sizes[i];
 	}
 
-	Rcpp::IntegerVector result(total_sample_size);
+	IntegerVector result(total_sample_size);
 	int set_from = 0;
 	int min_val = 0;
 
@@ -78,18 +97,18 @@ simple_sampler::simple_sampler(int in_n, int in_r) {
 	r = in_r;
 }
 
-Rcpp::IntegerVector simple_sampler::new_sample(void) {
+IntegerVector simple_sampler::new_sample(void) {
 	return sample_int(n, r);
 }
 
 stratified_sampler::stratified_sampler(
-	Rcpp::IntegerVector in_strata_sizes,
-	Rcpp::IntegerVector in_strata_sample_sizes
+	IntegerVector in_strata_sizes,
+	IntegerVector in_strata_sample_sizes
 ) {
 	strata_sizes = in_strata_sizes;
 	strata_sample_sizes = in_strata_sample_sizes;
 }
 
-Rcpp::IntegerVector stratified_sampler::new_sample(void) {
+IntegerVector stratified_sampler::new_sample(void) {
 	return stratified_sample_int(strata_sizes, strata_sample_sizes);
 }
