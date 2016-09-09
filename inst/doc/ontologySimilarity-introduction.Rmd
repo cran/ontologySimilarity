@@ -1,10 +1,10 @@
 ---
-title: "ontologySimilarity - Introduction"
+title: "Introduction to ontologySimilarity"
 author: "Daniel Greene"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ontologySimilarity-introduction}
+  %\VignetteIndexEntry{Introduction}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---

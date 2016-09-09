@@ -1,15 +1,15 @@
 ---
-title: "ontologySimilarity - Examples"
+title: "ontologySimilarity Examples"
 author: "Daniel Greene"
 date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{ontologySimilarity-examples}
+  %\VignetteIndexEntry{Examples}
   %\VignetteEngine{knitr::rmarkdown}
   %\usepackage[utf8]{inputenc}
 ---
 ```{r echo=FALSE}
-knitr::opts_chunk$set(dev="svg", fig.width=7, fig.height=5, dev="svg")
+knitr::opts_chunk$set(dev="svg", fig.width=7, fig.height=5, fig.align="center", dev="svg")
 ```
 
 This vignette demonstrates how some typical simple analyses can be done with `ontologySimilarilty`.
@@ -73,7 +73,7 @@ For efficiency in the situation where only statistically significant results are
 
 The function `get_sim_p` requires an argument called `pop_sim` which stores information on the similarities of the entire collection of objects. Depending on the type of parameter you pass, it is done in different ways which suit different scenarios. 
 
-### Using a similarlity matrix
+### Using a similarity matrix
 
 One way is to pass a matrix having the similarity between all term set pairs. The null distribution is then estimated by measuring the similarity of random subsets of the matrix. This is the fastest method if such a matrix is available as it doesn't require any between-object similarities to be calculated. However computing such a matrix may be infeasible if `N` is large. Note that this method can be used for any matrix of similarities, and no references to ontologies are required.
 

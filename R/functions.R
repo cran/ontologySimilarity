@@ -39,15 +39,13 @@ get_term_sim_mat <- function(
 	block_starts <- c(0L, block_ends[-length(block_ends)])
 
 	resnik <- structure(
-		.Call(
-			"calc_term_sim_mat",
+		calc_term_sim_mat(
 			block_starts,
 			block_ends,
 			ancs_cpp,
 			sorted_ic,
 			match(row_terms, lu_terms)-1L,
-			match(col_terms, lu_terms)-1L,
-			PACKAGE="ontologySimilarity"
+			match(col_terms, lu_terms)-1L
 		),
 		dimnames=list(row_terms, col_terms))
 
@@ -101,7 +99,7 @@ components_for_calc_sim_from_ic <- function(ontology, information_content, list_
 			 list_of_term_set_lists,
 			 function(term_sets) list(
 				t=as.integer(match(unlist(use.names=FALSE, term_sets), names(sorted_ic)))-1,
-				c=unlist(use.names=FALSE, mapply(SIMPLIFY=FALSE, FUN=rep, 0:(length(term_sets)-1), sapply(term_sets, length))),
+				c=unlist(use.names=FALSE, mapply(SIMPLIFY=FALSE, FUN=rep, seq(from=0, length.out=length(term_sets)), sapply(term_sets, length))),
 				n=length(term_sets)
 			)
 		)

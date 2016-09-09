@@ -130,8 +130,8 @@ get_sim_grid_from_ic <- function(
 	args <- components_for_calc_sim_from_ic(ontology, information_content, list(term_sets, term_sets2))
 
 	result <- (if (is.character(combine)) (if (combine == "average") function(x, y) { (x + y) / 2 } else match.fun("*")) else combine)(
-		do.call(what=.Call, c(list("R_get_sim_grid_ic", PACKAGE="ontologySimilarity", term_sim_method == "lin"), args[c("start", "stop", "ancs", "info")], args[["term_sets"]][[1]], args[["term_sets"]][[2]])),
-		t(do.call(what=.Call, c(list("R_get_sim_grid_ic", PACKAGE="ontologySimilarity", term_sim_method == "lin"), args[c("start", "stop", "ancs", "info")], args[["term_sets"]][[2]], args[["term_sets"]][[1]])))
+		do.call(what=sim_grid_ic, unname(c(list(term_sim_method == "lin"), args[c("start", "stop", "ancs", "info")], args[["term_sets"]][[1]], args[["term_sets"]][[2]]))),
+		t(do.call(what=sim_grid_ic, unname(c(list(term_sim_method == "lin"), args[c("start", "stop", "ancs", "info")], args[["term_sets"]][[2]], args[["term_sets"]][[1]]))))
 	)
 
 	rownames(result) <- names(term_sets)
@@ -153,15 +153,15 @@ get_sim_grid_from_tsm <- function(
 		stop("Terms in 'term_sets2' missing from colnames of 'term_sim_mat'")
 
 	t1 <- as.integer(match(unlist(use.names=FALSE, term_sets), rownames(term_sim_mat)))-1
-	c1 <- unlist(use.names=FALSE, mapply(SIMPLIFY=FALSE, FUN=rep, 0:(length(term_sets)-1), sapply(term_sets, length)))
+	c1 <- unlist(use.names=FALSE, mapply(SIMPLIFY=FALSE, FUN=rep, seq(from=0, length.out=length(term_sets)), sapply(term_sets, length)))
 	n1 <- length(term_sets)
 
 	t2 <- as.integer(match(unlist(use.names=FALSE, term_sets2), colnames(term_sim_mat)))-1
-	c2 <- unlist(use.names=FALSE, mapply(SIMPLIFY=FALSE, FUN=rep, 0:(length(term_sets2)-1), sapply(term_sets2, length)))
+	c2 <- unlist(use.names=FALSE, mapply(SIMPLIFY=FALSE, FUN=rep, seq(from=0, length.out=length(term_sets2)), sapply(term_sets2, length)))
 	n2 <- length(term_sets2)
 	result <- (if (is.character(combine)) (if (combine == "average") function(x, y) { (x + y) / 2 } else match.fun("*")) else combine)(
-		.Call("R_get_sim_grid", PACKAGE="ontologySimilarity", t1, c1, n1, t2, c2, n2, term_sim_mat),
-		t(.Call("R_get_sim_grid", PACKAGE="ontologySimilarity", t2, c2, n2, t1, c1, n1, term_sim_mat))
+		sim_grid(t1, c1, n1, t2, c2, n2, term_sim_mat),
+		t(sim_grid(t2, c2, n2, t1, c1, n1, term_sim_mat))
 	)
 
 	rownames(result) <- names(term_sets)

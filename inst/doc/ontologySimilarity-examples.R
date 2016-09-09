@@ -1,5 +1,5 @@
 ## ----echo=FALSE----------------------------------------------------------
-knitr::opts_chunk$set(dev="svg", fig.width=7, fig.height=5, dev="svg")
+knitr::opts_chunk$set(dev="svg", fig.width=7, fig.height=5, fig.align="center", dev="svg")
 
 ## ------------------------------------------------------------------------
 library(ontologyIndex)

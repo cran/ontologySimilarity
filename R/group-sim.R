@@ -92,9 +92,7 @@ get_sim.default <- function(pop_sim, group, type, group_sim="average", ...) {
 	stopifnot(group_sim %in% c("average","min"))
 	stopifnot(is.integer(group))
 
-	.Call(
-		"group_sim",
-		PACKAGE="ontologySimilarity",
+	group_sim(
 		type,
 		pop_sim,
 		group_sim=="average",
@@ -190,8 +188,7 @@ get_sim_p.default <- function(
 	stopifnot(group_sim %in% c("average","min"))
 	stopifnot(is.integer(group))
 
-	.Call(
-		"sim_p",
+	sim_p(
 		type,
 		pop_sim,
 		group_sim=="average",
@@ -199,8 +196,7 @@ get_sim_p.default <- function(
 		min_its,
 		max_its,
 		signif,
-		log_dismiss,
-		PACKAGE="ontologySimilarity"
+		log_dismiss
 	)
 }
 
@@ -303,9 +299,7 @@ sample_group_sim.default <- function(pop_sim, type, group_size, group_sim="avera
 	check_pop_sim_class(class(pop_sim), type)
 	stopifnot(group_sim %in% c("average","min"))
 
-	.Call(
-		"sample_null",
-		PACKAGE="ontologySimilarity",
+	sample_null(
 		type,
 		pop_sim,
 		group_sim=="average",
