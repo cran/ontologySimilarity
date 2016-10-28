@@ -12,7 +12,7 @@
 
 <meta name="author" content="Daniel Greene" />
 
-<meta name="date" content="2016-09-09" />
+<meta name="date" content="2016-10-27" />
 
 <title>Introduction to ontologySimilarity</title>
 
@@ -52,11 +52,11 @@ code > span.er { color: #ff0000; font-weight: bold; }
 
 <h1 class="title toc-ignore">Introduction to ontologySimilarity</h1>
 <h4 class="author"><em>Daniel Greene</em></h4>
-<h4 class="date"><em>2016-09-09</em></h4>
+<h4 class="date"><em>2016-10-27</em></h4>
 
 
 
-<p><code>ontologySimilarity</code> contains various functions for calculating semantic similarity between ontological objects. The functions operate on various kinds of object. It’s useful to look out for particular parameter names, as each kind of object tends to be called the same thing by the functions.</p>
+<p><code>ontologySimilarity</code> is part of the ‘ontologyX’ family of packages (see the ‘Introduction to ontologyX’ vignette supplied with the <code>ontologyIndex</code> package). It contains various functions for calculating semantic similarity between ontological objects. The functions operate on various kinds of object. It’s useful to look out for particular parameter names, as each kind of object tends to be called the same thing by the functions. To make full use of the features in <code>ontologySimilarity</code>, the user is encouraged to gain familiarity of the functions in <code>ontologyIndex</code>.</p>
 <ul>
 <li><code>ontology</code> - Objects of class <code>ontologyIndex</code>, described in the package <code>ontologyIndex</code>.</li>
 <li><code>terms</code> - A <code>character</code> vector of term IDs - either representing terms individually, or terms which together annotate a particular thing, e.g. term IDs from the Gene Ontology (GO) representing the functional annotations of a gene.</li>
@@ -91,39 +91,39 @@ code > span.er { color: #ff0000; font-weight: bold; }
 <pre class="sourceCode r"><code class="sourceCode r">term_sets &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">simplify=</span><span class="ot">FALSE</span>, <span class="dt">n=</span><span class="dv">5</span>, <span class="dt">expr=</span><span class="kw">minimal_set</span>(hpo, <span class="kw">sample</span>(hpo$id, <span class="dt">size=</span><span class="dv">8</span>)))
 term_sets</code></pre>
 <pre><code>## [[1]]
-## [1] &quot;HP:0004358&quot; &quot;HP:0006522&quot; &quot;HP:0010095&quot; &quot;HP:0100065&quot; &quot;HP:0003226&quot;
-## [6] &quot;HP:0040273&quot; &quot;HP:0100507&quot; &quot;HP:0011181&quot;
+## [1] &quot;HP:0004374&quot; &quot;HP:0006558&quot; &quot;HP:0010132&quot; &quot;HP:0100059&quot; &quot;HP:0003244&quot;
+## [6] &quot;HP:0040272&quot; &quot;HP:0100503&quot; &quot;HP:0011223&quot;
 ## 
 ## [[2]]
-## [1] &quot;HP:0010800&quot; &quot;HP:0003297&quot; &quot;HP:0002822&quot; &quot;HP:0011498&quot; &quot;HP:0006742&quot;
-## [6] &quot;HP:0012485&quot; &quot;HP:0009123&quot;
+## [1] &quot;HP:0010839&quot; &quot;HP:0000929&quot; &quot;HP:0003312&quot; &quot;HP:0002835&quot; &quot;HP:0011540&quot;
+## [6] &quot;HP:0006775&quot; &quot;HP:0012533&quot; &quot;HP:0009161&quot;
 ## 
 ## [[3]]
-## [1] &quot;HP:0011867&quot; &quot;HP:0430010&quot; &quot;HP:0006677&quot; &quot;HP:0012578&quot; &quot;HP:0100389&quot;
-## [6] &quot;HP:0003394&quot; &quot;HP:0011073&quot; &quot;HP:0001984&quot;
+## [1] &quot;HP:0011911&quot; &quot;HP:0430010&quot; &quot;HP:0006707&quot; &quot;HP:0012626&quot; &quot;HP:0100385&quot;
+## [6] &quot;HP:0003414&quot; &quot;HP:0011114&quot; &quot;HP:0001993&quot;
 ## 
 ## [[4]]
-## [1] &quot;HP:0004378&quot; &quot;HP:0006779&quot; &quot;HP:0000185&quot; &quot;HP:0006712&quot; &quot;HP:0030798&quot;
-## [6] &quot;HP:0005857&quot; &quot;HP:0008744&quot; &quot;HP:0010417&quot;
+## [1] &quot;HP:0004397&quot; &quot;HP:0006830&quot; &quot;HP:0000185&quot; &quot;HP:0006748&quot; &quot;HP:0030821&quot;
+## [6] &quot;HP:0005892&quot; &quot;HP:0008788&quot; &quot;HP:0010457&quot;
 ## 
 ## [[5]]
-## [1] &quot;HP:0009053&quot; &quot;HP:0002972&quot; &quot;HP:0030270&quot; &quot;HP:0011276&quot; &quot;HP:0012777&quot;
-## [6] &quot;HP:0001705&quot; &quot;HP:0011935&quot; &quot;HP:0007377&quot;</code></pre>
+## [1] &quot;HP:0009106&quot; &quot;HP:0002990&quot; &quot;HP:0030292&quot; &quot;HP:0011318&quot; &quot;HP:0012826&quot;
+## [6] &quot;HP:0001712&quot; &quot;HP:0011981&quot; &quot;HP:0007411&quot;</code></pre>
 <p>Then one can calculate a similarity matrix, containing pairwise term-set similarities:</p>
 <pre class="sourceCode r"><code class="sourceCode r">sim_mat &lt;-<span class="st"> </span><span class="kw">get_sim_grid</span>(<span class="dt">ontology=</span>hpo, <span class="dt">term_sets=</span>term_sets)
 sim_mat</code></pre>
 <pre><code>##           [,1]      [,2]      [,3]      [,4]      [,5]
-## [1,] 1.0000000 0.1949507 0.1817260 0.2684555 0.3124330
-## [2,] 0.1949507 1.0000000 0.2093800 0.2147150 0.3224362
-## [3,] 0.1817260 0.2093800 1.0000000 0.2245503 0.2604535
-## [4,] 0.2684555 0.2147150 0.2245503 1.0000000 0.1304503
-## [5,] 0.3124330 0.3224362 0.2604535 0.1304503 1.0000000</code></pre>
+## [1,] 1.0000000 0.2324045 0.2806641 0.2247873 0.2268486
+## [2,] 0.2324045 1.0000000 0.2550073 0.1856865 0.2068138
+## [3,] 0.2806641 0.2550073 1.0000000 0.2216797 0.2447336
+## [4,] 0.2247873 0.1856865 0.2216797 1.0000000 0.3493560
+## [5,] 0.2268486 0.2068138 0.2447336 0.3493560 1.0000000</code></pre>
 <p>Group similarity of phenotypes 1-3, based on <code>sim_mat</code>:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">get_sim</span>(sim_mat, <span class="dt">group=</span><span class="dv">1</span>:<span class="dv">3</span>)</code></pre>
-<pre><code>## [1] 0.1953522</code></pre>
+<pre><code>## [1] 0.2560253</code></pre>
 <p><em>p</em>-value for significance of similarity of phenotypes 1-3:</p>
 <pre class="sourceCode r"><code class="sourceCode r"><span class="kw">get_sim_p</span>(sim_mat, <span class="dt">group=</span><span class="dv">1</span>:<span class="dv">3</span>)</code></pre>
-<pre><code>## [1] 0.96004</code></pre>
+<pre><code>## [1] 0.2937063</code></pre>
 </div>
 
 

@@ -9,7 +9,7 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 
-`ontologySimilarity` contains various functions for calculating semantic similarity between ontological objects. The functions operate on various kinds of object. It's useful to look out for particular parameter names, as each kind of object tends to be called the same thing by the functions.
+`ontologySimilarity`  is part of the 'ontologyX' family of packages (see the 'Introduction to ontologyX' vignette supplied with the `ontologyIndex` package). It contains various functions for calculating semantic similarity between ontological objects. The functions operate on various kinds of object. It's useful to look out for particular parameter names, as each kind of object tends to be called the same thing by the functions. To make full use of the features in `ontologySimilarity`, the user is encouraged to gain familiarity of the functions in `ontologyIndex`.
 
 * `ontology` - Objects of class `ontologyIndex`, described in the package `ontologyIndex`.
 * `terms` - A `character` vector of term IDs - either representing terms individually, or terms which together annotate a particular thing, e.g. term IDs from the Gene Ontology (GO) representing the functional annotations of a gene.

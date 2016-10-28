@@ -9,7 +9,7 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 ```{r echo=FALSE}
-knitr::opts_chunk$set(dev="svg", fig.width=7, fig.height=5, fig.align="center", dev="svg")
+knitr::opts_chunk$set(dev="svg", fig.width=5, fig.height=5, fig.align="center", dev="svg")
 set.seed(0)
 ```
 
@@ -40,15 +40,15 @@ To see the names of the terms annotating a particular gene, the `go` `ontology_i
 go$name[beach$LRBA]
 ```
 
-The `gene_GO_terms` object contains annotation relating to all branches of the Gene Ontology, i.e. `"cellular_component"`, `"biological_process"` and `"molecular_function"`. If you are only interested in one branch - for example `"cellular_component"`, you can use the `ontologyIndex` package's function `intersection_with_branches` to subset the annotation.
+The `gene_GO_terms` object contains annotation relating to all branches of the Gene Ontology, i.e. `"cellular_component"`, `"biological_process"` and `"molecular_function"`. If you are only interested in one branch - for example `"cellular_component"`, you can use the `ontologyIndex` package's function `intersection_with_descendants` to subset the annotation.
 
 ```{r}
 cc <- go$id[go$name == "cellular_component"]
-beach_cc <- lapply(beach, function(x) intersection_with_branches(go, branch_roots=cc, x)) 
+beach_cc <- lapply(beach, function(x) intersection_with_descendants(go, roots=cc, x)) 
 data.frame(check.names=FALSE, `#terms`=sapply(beach, length), `#CC terms`=sapply(beach_cc, length))
 ```
 
-A pairwise gene semantic similarity matrix can be computed simply using the function `get_sim_grid`, and passing an `ontology_index` object, information content and annotation list as parameters (see `?get_sim_grid` for more details). Here we plot the resulting similarity matrix using the `heatmap` function.
+A pairwise gene semantic similarity matrix can be computed simply using the function `get_sim_grid`, and passing an `ontology_index` object, information content and annotation list as parameters (see `?get_sim_grid` for more details). Here we plot the resulting similarity matrix using the `paintmap` package.
 
 ```{r}
 sim_matrix <- get_sim_grid(
@@ -56,7 +56,8 @@ sim_matrix <- get_sim_grid(
 	information_content=GO_IC,
 	term_sets=beach)
 
-heatmap(sim_matrix)
+library(paintmap)
+paintmap(colour_matrix(sim_matrix))
 ```
 
 One can test whether a subset of genes is significantly similar as a group in the context of a larger collection by using the function `get_sim_p_from_ontology` to compute a *p*-value of similarity. For example here, we will compare the significance of the mean pairwise gene similarity within the BEACH group against randomly selected subsets of genes of the same size chosen from the `gene_GO_anno` set.

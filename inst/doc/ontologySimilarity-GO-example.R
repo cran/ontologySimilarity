@@ -1,5 +1,5 @@
 ## ----echo=FALSE----------------------------------------------------------
-knitr::opts_chunk$set(dev="svg", fig.width=7, fig.height=5, fig.align="center", dev="svg")
+knitr::opts_chunk$set(dev="svg", fig.width=5, fig.height=5, fig.align="center", dev="svg")
 set.seed(0)
 
 ## ------------------------------------------------------------------------
@@ -18,7 +18,7 @@ go$name[beach$LRBA]
 
 ## ------------------------------------------------------------------------
 cc <- go$id[go$name == "cellular_component"]
-beach_cc <- lapply(beach, function(x) intersection_with_branches(go, branch_roots=cc, x)) 
+beach_cc <- lapply(beach, function(x) intersection_with_descendants(go, roots=cc, x)) 
 data.frame(check.names=FALSE, `#terms`=sapply(beach, length), `#CC terms`=sapply(beach_cc, length))
 
 ## ------------------------------------------------------------------------
@@ -27,7 +27,8 @@ sim_matrix <- get_sim_grid(
 	information_content=GO_IC,
 	term_sets=beach)
 
-heatmap(sim_matrix)
+library(paintmap)
+paintmap(colour_matrix(sim_matrix))
 
 ## ------------------------------------------------------------------------
 get_sim_p_from_ontology(
