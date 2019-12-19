@@ -33,4 +33,8 @@ Resnik, P. (1995). `Using information content to evaluate semantic similarity in
 Lin D (1998). `An Information-Theoretic Definition of Similarity.' In Shavlik JW (ed.), _Proceedings of the Fifteenth International Conference on Machine Learning (ICML 1998), Madison, Wisconsin, USA, July 24-27, 1998_, pp. 296-304.
 
 }
-\keyword{ ontology, HPO, GO, semantic similarity, ontological similarity }
+\keyword{ontology}
+\keyword{HPO}
+\keyword{GO}
+\keyword{semantic similarity}
+\keyword{ontological similarity}

@@ -2,11 +2,11 @@
 % Please edit documentation in R/group-sim.R
 \name{get_sim_p}
 \alias{get_sim_p}
-\alias{get_sim_p.default}
 \alias{get_sim_p.integer}
-\alias{get_sim_p.matrix}
 \alias{get_sim_p.numeric}
+\alias{get_sim_p.matrix}
 \alias{get_sim_p.sim_index}
+\alias{get_sim_p.default}
 \title{Get similarity p-value}
 \usage{
 get_sim_p(pop_sim, ...)
@@ -51,4 +51,3 @@ p-value of group similarity, calculated by estimating the proportion by random s
 \seealso{
 \code{\link{get_sim}} \code{\link{sample_group_sim}}
 }
-

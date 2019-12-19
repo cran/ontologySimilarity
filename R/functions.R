@@ -4,7 +4,7 @@
 #'
 #' @template ontology
 #' @template information_content 
-#' @param method Character equalling either "lin" or "resnik" to use Lin or Resnik's expression for similarity of terms respectively.
+#' @param method Character value equalling either "lin" or "resnik" to use Lin or Resnik's expression for similarity of terms respectively.
 #' @param row_terms Character vector of term IDs to appear as rows of result matrix.
 #' @param col_terms Character vector of term IDs to appear as cols of result matrix.
 #' @return Numeric matrix of pairwise term similarities.
@@ -72,7 +72,8 @@ descendants_IC <- function(ontology) {
 
 #' @importFrom ontologyIndex get_ancestors
 components_for_calc_sim_from_ic <- function(ontology, information_content, list_of_term_set_lists) {
-	stopifnot(class(ontology) == "ontology_index")
+	if (!any(class(ontology) == "ontology_index"))
+		stop("'ontology' must be an 'ontology_index'!")
 	stopifnot(is.numeric(information_content))
 	stopifnot(is.list(list_of_term_set_lists))
 

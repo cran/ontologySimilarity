@@ -19,7 +19,7 @@ inline int random_integer(int exc_max)
 }
 
 void first_combination(IntegerVector item, size_t n);
-bool next_combination(IntegerVector item, size_t n, size_t N);
+bool next_combination(IntegerVector item, size_t n, int N);
 
 IntegerVector sample_int(int n, int r);
 void set_sample(

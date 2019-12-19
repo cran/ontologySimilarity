@@ -17,4 +17,3 @@ Matrix of rank similarities.
 \description{
 Given a lower triangular similarity matrix, construct a distance matrix where the rows are the ranks of the column cases with respect to similarity to the row case. If relative similarity is of interest, this rank-transformation may reduce bias in favour of high similarity scores in downstream analysis.
 }
-

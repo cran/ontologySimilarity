@@ -27,4 +27,3 @@ Resnik, P. (1995). `Using information content to evaluate semantic similarity in
 \seealso{
 \code{\link{lin}}, \code{\link{get_term_sim_mat}}
 }
-

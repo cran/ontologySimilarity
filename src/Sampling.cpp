@@ -10,7 +10,7 @@ void first_combination(IntegerVector item, size_t n)
     }
 }
 
-bool next_combination(IntegerVector item, size_t n, size_t N)
+bool next_combination(IntegerVector item, size_t n, int N)
 {
     for (size_t i = 1; i <= n; ++i) {
         if (item[n-i] < N-i) {

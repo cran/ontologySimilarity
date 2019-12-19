@@ -2,11 +2,11 @@
 % Please edit documentation in R/group-sim.R
 \name{sample_group_sim}
 \alias{sample_group_sim}
-\alias{sample_group_sim.default}
 \alias{sample_group_sim.integer}
-\alias{sample_group_sim.matrix}
 \alias{sample_group_sim.numeric}
+\alias{sample_group_sim.matrix}
 \alias{sample_group_sim.sim_index}
+\alias{sample_group_sim.default}
 \title{Draw sample of group similarities of groups of given size}
 \usage{
 sample_group_sim(pop_sim, ...)
@@ -44,4 +44,3 @@ Draw sample of group similarities of groups of given size
 \seealso{
 \code{\link{get_sim}} \code{\link{get_sim_p}}
 }
-

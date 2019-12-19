@@ -1,14 +1,14 @@
 allowed_class_type_map <- setNames(nm=c("matrix", "numeric", "integer", "sim_index"), c("matrix","numeric","numeric","sim_index"))
 
 check_pop_sim_class <- function(class_name, type) {
-	if (!class_name %in% names(allowed_class_type_map))
-		stop(paste0("Function not applicable to objects of class '", class_name, "'"))
-	if (!(allowed_class_type_map[class_name]==type))
+	if (!any(class_name %in% names(allowed_class_type_map)))
+		stop(paste0("Function not applicable to objects of class ", paste0("'", class_name, "'", collapse=", ")))
+	if (!(allowed_class_type_map[match(class_name, names(allowed_class_type_map))[1]]==type))
 		stop(paste0("Class-type mismatch"))
 }
 
 get_c_group_inds <- function(group, nm, pop_size) {
-	zero_inds <- if (class(group) == "character") {
+	zero_inds <- if (is.character(group)) {
 		if (is.null(nm)) stop("Term sets are not named, pass integer indices instead")
 		match(group, nm)-1L 
 	} else {
@@ -187,6 +187,8 @@ get_sim_p.default <- function(
 	check_pop_sim_class(class(pop_sim), type)
 	stopifnot(group_sim %in% c("average","min"))
 	stopifnot(is.integer(group))
+	if (length(group) < 2)
+		stop("'group' should contain at least two members")
 
 	sim_p(
 		type,

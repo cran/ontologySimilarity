@@ -86,16 +86,8 @@ get_profile_sims <- function(profile, term_sets, ...) {
 #' @return Numeric matrix of pairwise term set similarities.
 #' @seealso \code{\link{get_term_sim_mat}} \code{\link{get_sim_p}} \code{\link{get_asym_sim_grid}}
 #' @export
-#' @examples
-#' library(ontologyIndex)
-#' data(hpo)
-#' get_sim_grid(ontology=hpo, term_sets=list(
-#'   `case 1`=c("HP:0001873","HP:0011877"),
-#'   `case 2`=c("HP:0001892","HP:0001873"),
-#'   `case 3`=c("HP:0001872","HP:0000707")))
 get_sim_grid <- function(ontology, information_content, term_sim_method, term_sim_mat, term_sets, term_sets2=term_sets, combine="average") {
-	stopifnot(class(term_sets) == "list")
-	stopifnot(class(term_sets2) == "list")
+	stopifnot(is.list(term_sets) & is.list(term_sets))
 	if (!xor(missing(ontology), missing(term_sim_mat))) stop("Must pass either a 'term_sim_mat' or 'ontology' argument")
 	if (is.character(combine)) stopifnot(combine %in% c("average","product"))
 	if (!is.character(combine)) stopifnot(is.function(combine))
@@ -123,7 +115,8 @@ get_sim_grid_from_ic <- function(
 	combine,
 	term_sim_method
 ) {
-	stopifnot(class(ontology) == "ontology_index")
+	if (!any(class(ontology) == "ontology_index"))
+		stop("'ontology' must be an 'ontology_index'!")
 	stopifnot(is.numeric(information_content))
 	stopifnot(term_sim_method %in% c("lin", "resnik"))
 

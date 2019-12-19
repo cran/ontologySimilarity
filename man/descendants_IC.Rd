@@ -15,4 +15,3 @@ Numeric vector of information contents named by term.
 \description{
 Calculate information content of terms based on frequency with which it is an ancestor of other terms. Useful as a default if there is no population frequency information available as it captures the structure of the ontology.
 }
-

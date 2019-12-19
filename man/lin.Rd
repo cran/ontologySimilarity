@@ -27,4 +27,3 @@ Lin D (1998). `An Information-Theoretic Definition of Similarity.' In Shavlik JW
 \seealso{
 \code{\link{resnik}}, \code{\link{get_term_sim_mat}}
 }
-

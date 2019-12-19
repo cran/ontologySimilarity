@@ -2,11 +2,11 @@
 % Please edit documentation in R/group-sim.R
 \name{get_sim}
 \alias{get_sim}
-\alias{get_sim.default}
 \alias{get_sim.integer}
-\alias{get_sim.matrix}
 \alias{get_sim.numeric}
+\alias{get_sim.matrix}
 \alias{get_sim.sim_index}
+\alias{get_sim.default}
 \title{Calculate the group similarity of a set of row/column indices}
 \usage{
 get_sim(pop_sim, ...)
@@ -19,7 +19,8 @@ get_sim(pop_sim, ...)
 
 \method{get_sim}{sim_index}(pop_sim, group = seq(pop_sim[["N"]]), ...)
 
-\method{get_sim}{default}(pop_sim, group, type, group_sim = "average", ...)
+\method{get_sim}{default}(pop_sim, group, type, group_sim = "average",
+  ...)
 }
 \arguments{
 \item{pop_sim}{An object representing the similarities of an indexed population of objects.}
@@ -41,4 +42,3 @@ Calculates the similarity of a group within a population by applying the functio
 \seealso{
 \code{\link{get_sim_p}} \code{\link{sample_group_sim}}
 }
-

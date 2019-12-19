@@ -31,15 +31,6 @@ Using either an \code{ontology_index} object and numeric vector of information c
 \details{
 Note that if any term set within \code{term_sets} has 0 terms associated with it, it will get a similarity of 0 to any other set. If you do not want to compare term sets with no annotation, take care to filter out empty sets first, e.g. by `term_sets=term_sets[sapply(term_sets, length) > 0]`.
 }
-\examples{
-library(ontologyIndex)
-data(hpo)
-get_sim_grid(ontology=hpo, term_sets=list(
-  `case 1`=c("HP:0001873","HP:0011877"),
-  `case 2`=c("HP:0001892","HP:0001873"),
-  `case 3`=c("HP:0001872","HP:0000707")))
-}
 \seealso{
 \code{\link{get_term_sim_mat}} \code{\link{get_sim_p}} \code{\link{get_asym_sim_grid}}
 }
-

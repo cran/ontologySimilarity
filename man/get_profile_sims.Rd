@@ -22,4 +22,3 @@ Get numeric vector of similarities between each item in a list of term sets and 
 \seealso{
 \code{\link{get_asym_sim_grid}} \code{\link{get_sim_grid}}
 }
-

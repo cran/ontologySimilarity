@@ -5,8 +5,8 @@
 \title{Get similarity p-value for subgroup of list of term sets}
 \usage{
 get_sim_p_from_ontology(ontology, term_sets,
-  information_content = descendants_IC(ontology), term_sim_method = "lin",
-  combine = "average", ...)
+  information_content = descendants_IC(ontology),
+  term_sim_method = "lin", combine = "average", ...)
 }
 \arguments{
 \item{ontology}{\code{ontology_index} object.}
@@ -30,4 +30,3 @@ Get similarity p-value for subgroup of list of term sets
 \seealso{
 \code{\link{get_sim_p}} \code{\link{create_sim_index}}
 }
-

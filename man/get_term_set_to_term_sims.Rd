@@ -22,4 +22,3 @@ Create a numeric matrix of similarities between term sets and individual terms.
 \seealso{
 \code{\link{get_sim_grid}}
 }
-

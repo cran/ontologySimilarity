@@ -13,7 +13,7 @@ get_term_sim_mat(ontology, information_content, method = "lin",
 
 \item{information_content}{Numeric vector of information contents of terms (named by term)}
 
-\item{method}{Character equalling either "lin" or "resnik" to use Lin or Resnik's expression for similarity of terms respectively.}
+\item{method}{Character value equalling either "lin" or "resnik" to use Lin or Resnik's expression for similarity of terms respectively.}
 
 \item{row_terms}{Character vector of term IDs to appear as rows of result matrix.}
 
@@ -28,4 +28,3 @@ Get matrix of pairwise similarity of individual terms based on Lin's (default) o
 \seealso{
 \code{\link{get_sim_grid}} \code{\link{resnik}}, \code{\link{lin}}
 }
-

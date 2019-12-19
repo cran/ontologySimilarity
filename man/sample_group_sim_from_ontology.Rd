@@ -5,8 +5,8 @@
 \title{Draw sample of group similarities for groups of given size based on \code{ontology} argument}
 \usage{
 sample_group_sim_from_ontology(ontology, term_sets,
-  information_content = descendants_IC(ontology), term_sim_method = "lin",
-  combine = "average", ...)
+  information_content = descendants_IC(ontology),
+  term_sim_method = "lin", combine = "average", ...)
 }
 \arguments{
 \item{ontology}{\code{ontology_index} object.}
@@ -30,4 +30,3 @@ Draw sample of group similarities for groups of given size based on \code{ontolo
 \seealso{
 \code{\link{sample_group_sim}} \code{\link{create_sim_index}}
 }
-

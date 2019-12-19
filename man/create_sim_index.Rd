@@ -5,8 +5,8 @@
 \title{Create light-weight similarity index for fast lookups of between term set similarity.}
 \usage{
 create_sim_index(ontology, term_sets,
-  information_content = descendants_IC(ontology), term_sim_method = "lin",
-  combine = "average")
+  information_content = descendants_IC(ontology),
+  term_sim_method = "lin", combine = "average")
 }
 \arguments{
 \item{ontology}{\code{ontology_index} object.}
@@ -28,4 +28,3 @@ Create light-weight similarity index for fast lookups of between term set simila
 \seealso{
 \code{link{get_sim}} \code{\link{get_sim_p}} \code{\link{sample_group_sim}}
 }
-

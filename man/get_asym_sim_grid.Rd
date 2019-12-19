@@ -22,4 +22,3 @@ Create a numeric matrix of similarities between two lists of term sets, but only
 \seealso{
 \code{\link{get_sim_grid}} \code{\link{get_profile_sims}}
 }
-
