@@ -85,6 +85,14 @@ get_profile_sims <- function(profile, term_sets, ...) {
 #' @template combine
 #' @return Numeric matrix of pairwise term set similarities.
 #' @seealso \code{\link{get_term_sim_mat}} \code{\link{get_sim_p}} \code{\link{get_asym_sim_grid}}
+#' @examples
+#' library(ontologyIndex)
+#' data(hpo)
+#' term_sets <- list(
+#'	`case1`=c("HP:0001873", "HP:0011877"),
+#'	`case2`=c("HP:0001872", "HP:0001892"),
+#'	`case3`="HP:0001873")
+#' get_sim_grid(ontology=hpo, term_sets=term_sets)
 #' @export
 get_sim_grid <- function(ontology, information_content, term_sim_method, term_sim_mat, term_sets, term_sets2=term_sets, combine="average") {
 	stopifnot(is.list(term_sets) & is.list(term_sets))

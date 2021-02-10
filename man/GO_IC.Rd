@@ -4,7 +4,9 @@
 \name{GO_IC}
 \alias{GO_IC}
 \title{Gene Ontology terms information content.}
-\format{List of character vectors.}
+\format{
+List of character vectors.
+}
 \description{
 Numeric vector containing the information content of Gene Ontology terms based on frequencies of annotation data object \code{gene_GO_terms}. The object can be derived using the function \code{get_term_info_content} and data object \code{go} from the \code{ontologyIndex} package.
 }

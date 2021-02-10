@@ -1,19 +1,19 @@
 Package: ontologySimilarity
 Type: Package
 Title: Functions for Calculating Ontological Similarities
-Version: 2.3
-Date: 2019-12-19
+Version: 2.4
+Date: 2021-02-03
 Author: Daniel Greene
 Maintainer: Daniel Greene <dg333@cam.ac.uk>
-Description: Functions for calculating semantic similarities between ontological terms or sets of ontological terms based on term information content and assessing statistical significance of similarity in the context of a collection of sets of ontological terms.
+Description: Calculate similarity between ontological terms and sets of ontological terms based on term information content and assess statistical significance of similarity in the context of a collection of terms sets - Greene et al. 2017 <doi:10.1093/bioinformatics/btw763>.
 License: GPL (>= 2)
 Imports: Rcpp (>= 1.0.0), ontologyIndex (>= 2.0)
 LinkingTo: Rcpp
 Depends: R (>= 3.0.0)
-Suggests: knitr, paintmap
+Suggests: knitr, rmarkdown, paintmap
 VignetteBuilder: knitr
-RoxygenNote: 6.1.1
+RoxygenNote: 7.1.1
 NeedsCompilation: yes
-Packaged: 2019-12-19 08:50:55 UTC; dg
+Packaged: 2021-02-09 13:00:42 UTC; dg
 Repository: CRAN
-Date/Publication: 2019-12-19 09:40:02 UTC
+Date/Publication: 2021-02-10 10:40:23 UTC

@@ -1,7 +1,7 @@
-## ----echo=FALSE----------------------------------------------------------
-knitr::opts_chunk$set(dev="svg", fig.width=7, fig.height=5, fig.align="center", dev="svg")
+## ----echo=FALSE---------------------------------------------------------------
+knitr::opts_chunk$set(dev="svg", fig.width=7, fig.height=5, fig.align="center")
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 library(ontologyIndex)
 library(ontologySimilarity)
 data(hpo)
@@ -14,11 +14,11 @@ term_sets <- replicate(simplify=FALSE, n=7, expr=minimal_set(hpo, sample(hpo$id,
 sim_mat <- get_sim_grid(ontology=hpo, term_sets=term_sets)
 sim_mat
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 dist_mat <- max(sim_mat) - sim_mat
 plot(hclust(as.dist(dist_mat)))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 collection <- replicate(simplify=FALSE, n=100, expr=minimal_set(hpo, sample(hpo$id, size=8)))
 
 #lets measure the group similarity of objects 1-10
@@ -38,7 +38,7 @@ get_sim_p(
 	group=group)
 
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 data(go)
 
 genes <- replicate(simplify=FALSE, n=100, expr=minimal_set(go, sample(go$id, size=8)))
@@ -54,7 +54,7 @@ profile_sims
 #Note that you can pass character vectors to get_sim_p
 get_sim_p(profile_sims, c("gene 1", "gene 2", "gene 3"))
 
-## ------------------------------------------------------------------------
+## -----------------------------------------------------------------------------
 group_sim <- get_sim(sim_mat, group=group)
 
 samples <- sample_group_sim(sim_mat, group_size=length(group))

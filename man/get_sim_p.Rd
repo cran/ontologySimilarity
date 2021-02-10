@@ -19,9 +19,17 @@ get_sim_p(pop_sim, ...)
 
 \method{get_sim_p}{sim_index}(pop_sim, group, ...)
 
-\method{get_sim_p}{default}(pop_sim, group, type, min_its = 1000,
-  max_its = 1e+05, signif = 0.05, log_dismiss = log(1e-06),
-  group_sim = "average", ...)
+\method{get_sim_p}{default}(
+  pop_sim,
+  group,
+  type,
+  min_its = 1000,
+  max_its = 1e+05,
+  signif = 0.05,
+  log_dismiss = log(1e-06),
+  group_sim = "average",
+  ...
+)
 }
 \arguments{
 \item{pop_sim}{An object representing the similarities of an indexed population of objects.}

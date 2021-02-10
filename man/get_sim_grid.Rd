@@ -4,8 +4,15 @@
 \alias{get_sim_grid}
 \title{Get similarity matrix of pairwise similarities of term sets.}
 \usage{
-get_sim_grid(ontology, information_content, term_sim_method, term_sim_mat,
-  term_sets, term_sets2 = term_sets, combine = "average")
+get_sim_grid(
+  ontology,
+  information_content,
+  term_sim_method,
+  term_sim_mat,
+  term_sets,
+  term_sets2 = term_sets,
+  combine = "average"
+)
 }
 \arguments{
 \item{ontology}{\code{ontology_index} object.}
@@ -30,6 +37,15 @@ Using either an \code{ontology_index} object and numeric vector of information c
 }
 \details{
 Note that if any term set within \code{term_sets} has 0 terms associated with it, it will get a similarity of 0 to any other set. If you do not want to compare term sets with no annotation, take care to filter out empty sets first, e.g. by `term_sets=term_sets[sapply(term_sets, length) > 0]`.
+}
+\examples{
+library(ontologyIndex)
+data(hpo)
+term_sets <- list(
+`case1`=c("HP:0001873", "HP:0011877"),
+`case2`=c("HP:0001872", "HP:0001892"),
+`case3`="HP:0001873")
+get_sim_grid(ontology=hpo, term_sets=term_sets)
 }
 \seealso{
 \code{\link{get_term_sim_mat}} \code{\link{get_sim_p}} \code{\link{get_asym_sim_grid}}

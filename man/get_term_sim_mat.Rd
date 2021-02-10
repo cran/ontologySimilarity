@@ -4,9 +4,13 @@
 \alias{get_term_sim_mat}
 \title{Get term-term similarity matrix}
 \usage{
-get_term_sim_mat(ontology, information_content, method = "lin",
+get_term_sim_mat(
+  ontology,
+  information_content,
+  method = "lin",
   row_terms = names(information_content),
-  col_terms = names(information_content))
+  col_terms = names(information_content)
+)
 }
 \arguments{
 \item{ontology}{\code{ontology_index} object.}

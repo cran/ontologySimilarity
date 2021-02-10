@@ -9,7 +9,7 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 ```{r echo=FALSE}
-knitr::opts_chunk$set(dev="svg", fig.width=7, fig.height=5, fig.align="center", dev="svg")
+knitr::opts_chunk$set(dev="svg", fig.width=7, fig.height=5, fig.align="center")
 ```
 
 This vignette demonstrates how some typical simple analyses can be done with `ontologySimilarilty`.

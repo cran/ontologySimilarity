@@ -19,8 +19,7 @@ get_sim(pop_sim, ...)
 
 \method{get_sim}{sim_index}(pop_sim, group = seq(pop_sim[["N"]]), ...)
 
-\method{get_sim}{default}(pop_sim, group, type, group_sim = "average",
-  ...)
+\method{get_sim}{default}(pop_sim, group, type, group_sim = "average", ...)
 }
 \arguments{
 \item{pop_sim}{An object representing the similarities of an indexed population of objects.}

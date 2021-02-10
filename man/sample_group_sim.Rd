@@ -19,8 +19,14 @@ sample_group_sim(pop_sim, ...)
 
 \method{sample_group_sim}{sim_index}(pop_sim, ...)
 
-\method{sample_group_sim}{default}(pop_sim, type, group_size,
-  group_sim = "average", sample_size = 10000, ...)
+\method{sample_group_sim}{default}(
+  pop_sim,
+  type,
+  group_size,
+  group_sim = "average",
+  sample_size = 10000,
+  ...
+)
 }
 \arguments{
 \item{pop_sim}{An object representing the similarities of an indexed population of objects.}
