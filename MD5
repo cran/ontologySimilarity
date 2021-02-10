@@ -1,4 +1,4 @@
-b57260c57c4eaad331682e0e165842ec *DESCRIPTION
+34700059def1ef8d647865e1d457d344 *DESCRIPTION
 cb64305fb6f8b15d497e6236bcc70c84 *NAMESPACE
 cf52efbc6fb72327f5ceb907fcfa8a97 *R/RcppExports.R
 20064768d58b5655c76b6e869018813c *R/data.R
@@ -8,15 +8,15 @@ a74776726873a849c0377b8bf2faccbe *R/group-sim.R
 88b784ed1d133e1ef2529b1c295ac331 *build/vignette.rds
 23aeb7329f7c010a05807bf67bc0cebb *data/GO_IC.RData
 2c7d0f68657a125099aa5d2c9d66dbaf *data/gene_GO_terms.RData
-5da1bc98d42947dc90bcae75aa818555 *inst/doc/ontologySimilarity-GO-example.R
-94ac6139f01e014779bc5d952ed68acd *inst/doc/ontologySimilarity-GO-example.Rmd
-377d518ea232643250ec818464e2fdf7 *inst/doc/ontologySimilarity-GO-example.html
-19fd008048c1fe68be764cecd0be6acd *inst/doc/ontologySimilarity-examples.R
-3e6abd1c8a2a984bfdd762f47735e496 *inst/doc/ontologySimilarity-examples.Rmd
-ca083c3ce84ce21fbb19878acc9c6f66 *inst/doc/ontologySimilarity-examples.html
+0e11053a32c7e997dae46122f50c390d *inst/doc/ontologySimilarity-GO-example.R
+d46e727230d04edc4465f3e171503af8 *inst/doc/ontologySimilarity-GO-example.Rmd
+6ad1694fb43e24ffb30ef2eacb28318a *inst/doc/ontologySimilarity-GO-example.html
+1b5c89127c215f2d9871b61faef27f50 *inst/doc/ontologySimilarity-examples.R
+19ff8aeab9503f40a03d41f19526a96d *inst/doc/ontologySimilarity-examples.Rmd
+5123ffcef289924cb9c8d3b07efa969d *inst/doc/ontologySimilarity-examples.html
 a80827661249ad62ab6527f9473f7adb *inst/doc/ontologySimilarity-introduction.R
 8cc17cb8f48f3085305ae52cbbc6178b *inst/doc/ontologySimilarity-introduction.Rmd
-968c62c54ca4a899e75914b332724876 *inst/doc/ontologySimilarity-introduction.html
+e92427dbe9cefa3d55fc3e53f4410292 *inst/doc/ontologySimilarity-introduction.html
 abdc185b2a1cfac7effc45cfca41d390 *man/GO_IC.Rd
 c84880cf6ce9c879141226c33e3fa29f *man/create_sim_index.Rd
 7e1883698c1f266480063f27fede16b2 *man/descendants_IC.Rd
@@ -48,6 +48,6 @@ d9b9ffb33d86bbcfed69e248d9d474a1 *src/SimMatrix.h
 20a3af0da8d60e7f163e7d102aff10d4 *src/TermList.h
 b32bf00554a5a4e928588f8f28baddf6 *src/TermSetSimData.cpp
 238e33278e7db2a772015e3e5ef0a083 *src/TermSetSimData.h
-94ac6139f01e014779bc5d952ed68acd *vignettes/ontologySimilarity-GO-example.Rmd
-3e6abd1c8a2a984bfdd762f47735e496 *vignettes/ontologySimilarity-examples.Rmd
+d46e727230d04edc4465f3e171503af8 *vignettes/ontologySimilarity-GO-example.Rmd
+19ff8aeab9503f40a03d41f19526a96d *vignettes/ontologySimilarity-examples.Rmd
 8cc17cb8f48f3085305ae52cbbc6178b *vignettes/ontologySimilarity-introduction.Rmd

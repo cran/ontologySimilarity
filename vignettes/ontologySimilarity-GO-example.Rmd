@@ -9,7 +9,6 @@ vignette: >
   %\usepackage[utf8]{inputenc}
 ---
 ```{r echo=FALSE}
-knitr::opts_chunk$set(dev="svg", fig.width=5, fig.height=5, fig.align="center")
 set.seed(0)
 ```
 

@@ -1,6 +1,3 @@
-## ----echo=FALSE---------------------------------------------------------------
-knitr::opts_chunk$set(dev="svg", fig.width=7, fig.height=5, fig.align="center")
-
 ## -----------------------------------------------------------------------------
 library(ontologyIndex)
 library(ontologySimilarity)
