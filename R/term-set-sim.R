@@ -95,7 +95,7 @@ get_profile_sims <- function(profile, term_sets, ...) {
 #' get_sim_grid(ontology=hpo, term_sets=term_sets)
 #' @export
 get_sim_grid <- function(ontology, information_content, term_sim_method, term_sim_mat, term_sets, term_sets2=term_sets, combine="average") {
-	stopifnot(is.list(term_sets) & is.list(term_sets))
+	stopifnot(is.list(term_sets) && is.list(term_sets2))
 	if (!xor(missing(ontology), missing(term_sim_mat))) stop("Must pass either a 'term_sim_mat' or 'ontology' argument")
 	if (is.character(combine)) stopifnot(combine %in% c("average","product"))
 	if (!is.character(combine)) stopifnot(is.function(combine))

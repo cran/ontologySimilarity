@@ -5,6 +5,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // sample_null
 NumericVector sample_null(std::string type, RObject term_sets_data, bool use_mean, int group_size, int samples);
 RcppExport SEXP _ontologySimilarity_sample_null(SEXP typeSEXP, SEXP term_sets_dataSEXP, SEXP use_meanSEXP, SEXP group_sizeSEXP, SEXP samplesSEXP) {

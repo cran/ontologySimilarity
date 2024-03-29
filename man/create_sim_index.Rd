@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions.R
 \name{create_sim_index}
 \alias{create_sim_index}
-\title{Create light-weight similarity index for fast lookups of between term set similarity.}
+\title{Create similarity index for list of term sets}
 \usage{
 create_sim_index(
   ontology,

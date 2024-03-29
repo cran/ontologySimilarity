@@ -2,7 +2,7 @@
 % Please edit documentation in R/group-sim.R
 \name{get_sim_p_from_ontology}
 \alias{get_sim_p_from_ontology}
-\title{Get similarity p-value for subgroup of list of term sets}
+\title{Get similarity p-value for subgroup term sets}
 \usage{
 get_sim_p_from_ontology(
   ontology,
@@ -30,7 +30,7 @@ get_sim_p_from_ontology(
 Numeric value.
 }
 \description{
-Get similarity p-value for subgroup of list of term sets
+Compute a similarity p-value by permutation for subgroup of a list of term sets
 }
 \seealso{
 \code{\link{get_sim_p}} \code{\link{create_sim_index}}

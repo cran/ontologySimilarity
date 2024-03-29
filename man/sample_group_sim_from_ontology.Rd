@@ -2,7 +2,7 @@
 % Please edit documentation in R/group-sim.R
 \name{sample_group_sim_from_ontology}
 \alias{sample_group_sim_from_ontology}
-\title{Draw sample of group similarities for groups of given size based on \code{ontology} argument}
+\title{Draw sample of group similarities}
 \usage{
 sample_group_sim_from_ontology(
   ontology,
@@ -30,7 +30,7 @@ sample_group_sim_from_ontology(
 Numeric vector of group similarities.
 }
 \description{
-Draw sample of group similarities for groups of given size based on \code{ontology} argument
+ample of group similarities for random groups of given drawn from the given \code{ontology} argument
 }
 \seealso{
 \code{\link{sample_group_sim}} \code{\link{create_sim_index}}

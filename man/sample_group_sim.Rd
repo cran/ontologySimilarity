@@ -7,7 +7,7 @@
 \alias{sample_group_sim.matrix}
 \alias{sample_group_sim.sim_index}
 \alias{sample_group_sim.default}
-\title{Draw sample of group similarities of groups of given size}
+\title{Draw sample of group similarities}
 \usage{
 sample_group_sim(pop_sim, ...)
 

@@ -1,7 +1,5 @@
-#' Get term-term similarity matrix 
-#'
-#' Get matrix of pairwise similarity of individual terms based on Lin's (default) or Resnik's information content-based expression.
-#'
+#' @title Get term-term similarity matrix 
+#' @description Get matrix of pairwise similarity of individual terms based on Lin's (default) or Resnik's information content-based expression.
 #' @template ontology
 #' @template information_content 
 #' @param method Character value equalling either "lin" or "resnik" to use Lin or Resnik's expression for similarity of terms respectively.
@@ -12,7 +10,6 @@
 #' @export
 #' @importFrom Rcpp evalCpp
 #' @importFrom ontologyIndex get_ancestors
-#' @importFrom Rcpp evalCpp
 #' @useDynLib ontologySimilarity
 get_term_sim_mat <- function(
 	ontology,
@@ -57,10 +54,8 @@ get_term_sim_mat <- function(
 	}
 }
 
-#' Get information content based on number of descendants each term has
-#'
-#' Calculate information content of terms based on frequency with which it is an ancestor of other terms. Useful as a default if there is no population frequency information available as it captures the structure of the ontology.
-#'
+#' @title Get information content based on number of descendants each term has
+#' @description Calculate information content of terms based on frequency with which it is an ancestor of other terms. Useful as a default if there is no population frequency information available as it captures the structure of the ontology.
 #' @template ontology
 #' @return Numeric vector of information contents named by term.
 #' @export
@@ -107,8 +102,8 @@ components_for_calc_sim_from_ic <- function(ontology, information_content, list_
 	)
 }
 
-#' Create light-weight similarity index for fast lookups of between term set similarity.
-#'
+#' @title Create similarity index for list of term sets
+#' @description Create light-weight similarity index for fast lookups of between term set similarity.
 #' @template ontology
 #' @template term_sets
 #' @template information_content

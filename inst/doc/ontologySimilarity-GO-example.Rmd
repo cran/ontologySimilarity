@@ -72,6 +72,6 @@ get_sim_p_from_ontology(
 
 ## References
 
-1. Gene Ontology Consortium website, http://geneontology.org/, dated 7/7/2016.
+1. Gene Ontology Consortium website, https://geneontology.org/, dated 20/2/2024.
 2. HUGO Gene Nomenclature Committee https://www.genenames.org/
 

@@ -20,10 +20,8 @@ get_c_group_inds <- function(group, nm, pop_size) {
 	as.integer(zero_inds)
 }
 
-#' Calculate the group similarity of a set of row/column indices
-#'
-#' Calculates the similarity of a group within a population by applying the function specified by \code{group_sim} to the pairwise similarities of group members.
-#'
+#' @title Calculate the group similarity of a set of row/column indices
+#' @description Calculates the similarity of a group within a population by applying the function specified by \code{group_sim} to the pairwise similarities of group members.
 #' @template pop_sim
 #' @template group
 #' @template type
@@ -100,10 +98,8 @@ get_sim.default <- function(pop_sim, group, type, group_sim="average", ...) {
 	)
 }
 
-#' Get similarity p-value
-#'
-#' p-value of group similarity, calculated by estimating the proportion by random sampling of groups the same size as \code{group} which have at least as great group similarity than does \code{group}.
-#'
+#' @title Get similarity p-value
+#' @description p-value of group similarity, calculated by estimating the proportion by random sampling of groups the same size as \code{group} which have at least as great group similarity than does \code{group}.
 #' @template pop_sim
 #' @template group
 #' @template type
@@ -202,8 +198,8 @@ get_sim_p.default <- function(
 	)
 }
 
-#' Get similarity p-value for subgroup of list of term sets
-#'
+#' @title Get similarity p-value for subgroup term sets
+#' @description Compute a similarity p-value by permutation for subgroup of a list of term sets
 #' @template ontology
 #' @template term_sets
 #' @template information_content
@@ -233,8 +229,8 @@ get_sim_p_from_ontology <- function(
 	)
 }
 
-#' Draw sample of group similarities of groups of given size
-#'
+#' @title Draw sample of group similarities
+#' @description Draw sample of group similarities of groups of given size
 #' @template pop_sim
 #' @param group_size Integer giving the number of members of a group.
 #' @param sample_size Number of samples to draw. 
@@ -310,8 +306,8 @@ sample_group_sim.default <- function(pop_sim, type, group_size, group_sim="avera
 	)
 }
 
-#' Draw sample of group similarities for groups of given size based on \code{ontology} argument
-#'
+#' @title Draw sample of group similarities
+#' @description ample of group similarities for random groups of given drawn from the given \code{ontology} argument
 #' @template ontology
 #' @template term_sets
 #' @template information_content
@@ -341,3 +337,61 @@ sample_group_sim_from_ontology <- function(
 	)
 }
 
+#' @title Identify enriched terms in subgroup
+#' @description Create a table of terms ranked by their significance of occurrence in a set of term sets amongst an enclosing set, with p-values computed by permutation. Terms are subselected so that only the minimal set of non-redundant terms at each level of frequency within the group are retained.
+#' @template ontology
+#' @template term_sets
+#' @param group Integer/logical/character vector specifying indices/positions/names of subgroup for which to calculate a group similarity p-value.
+#' @param permutations Number of permutations to test against, or if \code{NULL}, perform no permutations and return the unadjusted p-values for the occurrence of each term.
+#' @param min_terms Minimum number of times a term should occur within the given group to be eligible for inclusion in the results.
+#' @return \code{data.frame} containing columns: \code{term} (with the term ID); \code{name} (term readable name); \code{in_term} (number of sets in the given group of containing the term); \code{in_no_term} (number of sets in the given group not containing the term); \code{out_term} and \code{out_no_term} (equivalently for the sets not in the given group); \code{p} (the p-values calculated by permutation for seeing a term with such a strong association, measured using Fisher's exact test, in a group of term sets the size of the given group among \code{term_sets}). Rows ordered by significance (i.e. the \code{p} columns).
+#' @param mc.cores If not null and greater than on, the number of cores use calculating permutations (passed to \code{mclapply}).
+#' @export
+#' @seealso \code{\link{sample_group_sim}} \code{\link{create_sim_index}}
+#' @importFrom parallel mclapply
+#' @importFrom stats fisher.test
+#' @importFrom ontologyIndex minimal_set 
+#' @export
+group_term_enrichment <- function(
+	ontology,
+	term_sets,
+	group,
+	permutations=1000L,
+	min_terms=2L,
+	mc.cores=NULL
+) {
+	if (is.character(group) & !is.null(names(term_sets))) group <- names(term_sets) %in% group
+	if (is.integer(group)) group <- seq_along(term_sets) %in% group
+	if (!is.logical(group)) {
+		stop("'group' argument must be integer/logical/character vector specifying indices/positions/names of subgroup within 'term_sets'")
+	}
+	stopifnot(length(group)==length(term_sets))
+	w_ancs <- lapply(term_sets, get_ancestors, ontology=ontology)
+	all_terms <- names(which(table(as.character(unlist(use.names=FALSE, w_ancs))) >= min_terms))
+	tf <- factor(as.character(unlist(use.names=FALSE, w_ancs)), levels=all_terms)
+	fn <- function(group, just_p=FALSE) {
+		f <- factor(as.integer(group), 0:1)
+		term_tab <- (function(x) x[,x[2,]>=min_terms,drop=FALSE])(as.matrix(table(
+			gt=rep(f, times=lengths(w_ancs)),
+			term=tf
+		)))
+		ft <- table(f)
+		ps <- apply(term_tab, 2, function(x) fisher.test(rbind(x, ft-x))$p.value)
+		if (just_p) min(ps) else list(ft=ft, p=ps, terms=term_tab)
+	}
+	r <- fn(group)
+	m <- structure(as.matrix(r$terms), class="matrix")
+	v <- t(rbind(m, as.integer(r$ft)-m))
+	colnames(v) <- c("out_term","in_term","out_no_term","in_no_term")
+	rep_fn <- function(x) replicate(x, fn(sample(group), TRUE), TRUE)
+	df <- data.frame(
+		stringsAsFactors=FALSE,
+		check.names=FALSE,
+		row.names=NULL,
+		term=rownames(v),
+		name=ontology$name[rownames(v)],
+		v[,c(2,4,1,3)],
+		p=if (is.null(permutations)) r$p else local({ ps <- sort(c(min(r$p), if (is.null(mc.cores) || mc.cores == 1) rep_fn(permutations) else { as.numeric(unlist(use.names=FALSE,mclapply(mc.cores=mc.cores,table(gl(n=mc.cores,k=1,length=permutations)),function(i) rep_fn(i)))) })); dedup <- ps[!duplicated(ps)]; cumsum(table(cut(x=ps, right=FALSE, labels=FALSE, breaks=c(dedup, Inf))))[cut(x=r$p, right=FALSE, labels=FALSE, breaks=c(dedup, Inf))]/(permutations+1) })
+	)[order(r$p),]
+	df[unsplit(f=df$`in_term`, value=lapply(split(df$term, f=df$`in_term`), function(x) x %in% minimal_set(ontology, terms=x))),]
+}

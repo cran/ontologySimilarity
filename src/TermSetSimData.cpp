@@ -96,7 +96,6 @@ double sim(
 	return (terms1.n_terms[i1] == 0) ? 0.0 : (total / (double)terms1.n_terms[i1]);
 }
 
-
 double SimMatrix::groupsim(
 	IntegerVector group
 ) {

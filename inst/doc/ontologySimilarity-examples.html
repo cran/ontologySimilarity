@@ -12,10 +12,39 @@
 
 <meta name="author" content="Daniel Greene" />
 
-<meta name="date" content="2021-02-10" />
+<meta name="date" content="2024-03-29" />
 
 <title>ontologySimilarity Examples</title>
 
+<script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
+// be compatible with the behavior of Pandoc < 2.8).
+document.addEventListener('DOMContentLoaded', function(e) {
+  var hs = document.querySelectorAll("div.section[class*='level'] > :first-child");
+  var i, h, a;
+  for (i = 0; i < hs.length; i++) {
+    h = hs[i];
+    if (!/^h[1-6]$/i.test(h.tagName)) continue;  // it should be a header h1-h6
+    a = h.attributes;
+    while (a.length > 0) h.removeAttribute(a[0].name);
+  }
+});
+</script>
+<script>// Hide empty <a> tag within highlighted CodeBlock for screen reader accessibility (see https://github.com/jgm/pandoc/issues/6352#issuecomment-626106786) -->
+// v0.0.1
+// Written by JooYoung Seo (jooyoung@psu.edu) and Atsushi Yasumoto on June 1st, 2020.
+
+document.addEventListener('DOMContentLoaded', function() {
+  const codeList = document.getElementsByClassName("sourceCode");
+  for (var i = 0; i < codeList.length; i++) {
+    var linkList = codeList[i].getElementsByTagName('a');
+    for (var j = 0; j < linkList.length; j++) {
+      if (linkList[j].innerHTML === "") {
+        linkList[j].setAttribute('aria-hidden', 'true');
+      }
+    }
+  }
+});
+</script>
 
 <style type="text/css">
   code{white-space: pre-wrap;}
@@ -27,43 +56,78 @@
     </style>
 
 
-<style type="text/css">code{white-space: pre;}</style>
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
 <style type="text/css" data-origin="pandoc">
-div.sourceCode { overflow-x: auto; }
-table.sourceCode, tr.sourceCode, td.lineNumbers, td.sourceCode {
-  margin: 0; padding: 0; vertical-align: baseline; border: none; }
-table.sourceCode { width: 100%; line-height: 100%; }
-td.lineNumbers { text-align: right; padding-right: 4px; padding-left: 4px; color: #aaaaaa; border-right: 1px solid #aaaaaa; }
-td.sourceCode { padding-left: 5px; }
-code > span.kw { color: #007020; font-weight: bold; } /* Keyword */
-code > span.dt { color: #902000; } /* DataType */
-code > span.dv { color: #40a070; } /* DecVal */
-code > span.bn { color: #40a070; } /* BaseN */
-code > span.fl { color: #40a070; } /* Float */
-code > span.ch { color: #4070a0; } /* Char */
-code > span.st { color: #4070a0; } /* String */
-code > span.co { color: #60a0b0; font-style: italic; } /* Comment */
-code > span.ot { color: #007020; } /* Other */
-code > span.al { color: #ff0000; font-weight: bold; } /* Alert */
-code > span.fu { color: #06287e; } /* Function */
-code > span.er { color: #ff0000; font-weight: bold; } /* Error */
-code > span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
-code > span.cn { color: #880000; } /* Constant */
-code > span.sc { color: #4070a0; } /* SpecialChar */
-code > span.vs { color: #4070a0; } /* VerbatimString */
-code > span.ss { color: #bb6688; } /* SpecialString */
-code > span.im { } /* Import */
-code > span.va { color: #19177c; } /* Variable */
-code > span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
-code > span.op { color: #666666; } /* Operator */
-code > span.bu { } /* BuiltIn */
-code > span.ex { } /* Extension */
-code > span.pp { color: #bc7a00; } /* Preprocessor */
-code > span.at { color: #7d9029; } /* Attribute */
-code > span.do { color: #ba2121; font-style: italic; } /* Documentation */
-code > span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
-code > span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
-code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    color: #aaaaaa;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { color: #7d9029; } /* Attribute */
+code span.bn { color: #40a070; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #4070a0; } /* Char */
+code span.cn { color: #880000; } /* Constant */
+code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+code span.dt { color: #902000; } /* DataType */
+code span.dv { color: #40a070; } /* DecVal */
+code span.er { color: #ff0000; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #40a070; } /* Float */
+code span.fu { color: #06287e; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+code span.op { color: #666666; } /* Operator */
+code span.ot { color: #007020; } /* Other */
+code span.pp { color: #bc7a00; } /* Preprocessor */
+code span.sc { color: #4070a0; } /* SpecialChar */
+code span.ss { color: #bb6688; } /* SpecialString */
+code span.st { color: #4070a0; } /* String */
+code span.va { color: #19177c; } /* Variable */
+code span.vs { color: #4070a0; } /* VerbatimString */
+code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
 
 </style>
 <script>
@@ -73,13 +137,20 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
   for (var i = 0; i < sheets.length; i++) {
     if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
     try { var rules = sheets[i].cssRules; } catch (e) { continue; }
-    for (var j = 0; j < rules.length; j++) {
+    var j = 0;
+    while (j < rules.length) {
       var rule = rules[j];
       // check if there is a div.sourceCode rule
-      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") {
+        j++;
+        continue;
+      }
       var style = rule.style.cssText;
       // check if color or background-color is set
-      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      if (rule.style.color === '' && rule.style.backgroundColor === '') {
+        j++;
+        continue;
+      }
       // replace div.sourceCode by a pre.sourceCode rule
       sheets[i].deleteRule(j);
       sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
@@ -91,7 +162,187 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 
 
-<link href="data:text/css;charset=utf-8,body%20%7B%0Abackground%2Dcolor%3A%20%23fff%3B%0Amargin%3A%201em%20auto%3B%0Amax%2Dwidth%3A%20700px%3B%0Aoverflow%3A%20visible%3B%0Apadding%2Dleft%3A%202em%3B%0Apadding%2Dright%3A%202em%3B%0Afont%2Dfamily%3A%20%22Open%20Sans%22%2C%20%22Helvetica%20Neue%22%2C%20Helvetica%2C%20Arial%2C%20sans%2Dserif%3B%0Afont%2Dsize%3A%2014px%3B%0Aline%2Dheight%3A%201%2E35%3B%0A%7D%0A%23TOC%20%7B%0Aclear%3A%20both%3B%0Amargin%3A%200%200%2010px%2010px%3B%0Apadding%3A%204px%3B%0Awidth%3A%20400px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Aborder%2Dradius%3A%205px%3B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Afont%2Dsize%3A%2013px%3B%0Aline%2Dheight%3A%201%2E3%3B%0A%7D%0A%23TOC%20%2Etoctitle%20%7B%0Afont%2Dweight%3A%20bold%3B%0Afont%2Dsize%3A%2015px%3B%0Amargin%2Dleft%3A%205px%3B%0A%7D%0A%23TOC%20ul%20%7B%0Apadding%2Dleft%3A%2040px%3B%0Amargin%2Dleft%3A%20%2D1%2E5em%3B%0Amargin%2Dtop%3A%205px%3B%0Amargin%2Dbottom%3A%205px%3B%0A%7D%0A%23TOC%20ul%20ul%20%7B%0Amargin%2Dleft%3A%20%2D2em%3B%0A%7D%0A%23TOC%20li%20%7B%0Aline%2Dheight%3A%2016px%3B%0A%7D%0Atable%20%7B%0Amargin%3A%201em%20auto%3B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dcolor%3A%20%23DDDDDD%3B%0Aborder%2Dstyle%3A%20outset%3B%0Aborder%2Dcollapse%3A%20collapse%3B%0A%7D%0Atable%20th%20%7B%0Aborder%2Dwidth%3A%202px%3B%0Apadding%3A%205px%3B%0Aborder%2Dstyle%3A%20inset%3B%0A%7D%0Atable%20td%20%7B%0Aborder%2Dwidth%3A%201px%3B%0Aborder%2Dstyle%3A%20inset%3B%0Aline%2Dheight%3A%2018px%3B%0Apadding%3A%205px%205px%3B%0A%7D%0Atable%2C%20table%20th%2C%20table%20td%20%7B%0Aborder%2Dleft%2Dstyle%3A%20none%3B%0Aborder%2Dright%2Dstyle%3A%20none%3B%0A%7D%0Atable%20thead%2C%20table%20tr%2Eeven%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Ap%20%7B%0Amargin%3A%200%2E5em%200%3B%0A%7D%0Ablockquote%20%7B%0Abackground%2Dcolor%3A%20%23f6f6f6%3B%0Apadding%3A%200%2E25em%200%2E75em%3B%0A%7D%0Ahr%20%7B%0Aborder%2Dstyle%3A%20solid%3B%0Aborder%3A%20none%3B%0Aborder%2Dtop%3A%201px%20solid%20%23777%3B%0Amargin%3A%2028px%200%3B%0A%7D%0Adl%20%7B%0Amargin%2Dleft%3A%200%3B%0A%7D%0Adl%20dd%20%7B%0Amargin%2Dbottom%3A%2013px%3B%0Amargin%2Dleft%3A%2013px%3B%0A%7D%0Adl%20dt%20%7B%0Afont%2Dweight%3A%20bold%3B%0A%7D%0Aul%20%7B%0Amargin%2Dtop%3A%200%3B%0A%7D%0Aul%20li%20%7B%0Alist%2Dstyle%3A%20circle%20outside%3B%0A%7D%0Aul%20ul%20%7B%0Amargin%2Dbottom%3A%200%3B%0A%7D%0Apre%2C%20code%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0Aborder%2Dradius%3A%203px%3B%0Acolor%3A%20%23333%3B%0Awhite%2Dspace%3A%20pre%2Dwrap%3B%20%0A%7D%0Apre%20%7B%0Aborder%2Dradius%3A%203px%3B%0Amargin%3A%205px%200px%2010px%200px%3B%0Apadding%3A%2010px%3B%0A%7D%0Apre%3Anot%28%5Bclass%5D%29%20%7B%0Abackground%2Dcolor%3A%20%23f7f7f7%3B%0A%7D%0Acode%20%7B%0Afont%2Dfamily%3A%20Consolas%2C%20Monaco%2C%20%27Courier%20New%27%2C%20monospace%3B%0Afont%2Dsize%3A%2085%25%3B%0A%7D%0Ap%20%3E%20code%2C%20li%20%3E%20code%20%7B%0Apadding%3A%202px%200px%3B%0A%7D%0Adiv%2Efigure%20%7B%0Atext%2Dalign%3A%20center%3B%0A%7D%0Aimg%20%7B%0Abackground%2Dcolor%3A%20%23FFFFFF%3B%0Apadding%3A%202px%3B%0Aborder%3A%201px%20solid%20%23DDDDDD%3B%0Aborder%2Dradius%3A%203px%3B%0Aborder%3A%201px%20solid%20%23CCCCCC%3B%0Amargin%3A%200%205px%3B%0A%7D%0Ah1%20%7B%0Amargin%2Dtop%3A%200%3B%0Afont%2Dsize%3A%2035px%3B%0Aline%2Dheight%3A%2040px%3B%0A%7D%0Ah2%20%7B%0Aborder%2Dbottom%3A%204px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Apadding%2Dbottom%3A%202px%3B%0Afont%2Dsize%3A%20145%25%3B%0A%7D%0Ah3%20%7B%0Aborder%2Dbottom%3A%202px%20solid%20%23f7f7f7%3B%0Apadding%2Dtop%3A%2010px%3B%0Afont%2Dsize%3A%20120%25%3B%0A%7D%0Ah4%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23f7f7f7%3B%0Amargin%2Dleft%3A%208px%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Ah5%2C%20h6%20%7B%0Aborder%2Dbottom%3A%201px%20solid%20%23ccc%3B%0Afont%2Dsize%3A%20105%25%3B%0A%7D%0Aa%20%7B%0Acolor%3A%20%230033dd%3B%0Atext%2Ddecoration%3A%20none%3B%0A%7D%0Aa%3Ahover%20%7B%0Acolor%3A%20%236666ff%3B%20%7D%0Aa%3Avisited%20%7B%0Acolor%3A%20%23800080%3B%20%7D%0Aa%3Avisited%3Ahover%20%7B%0Acolor%3A%20%23BB00BB%3B%20%7D%0Aa%5Bhref%5E%3D%22http%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0Aa%5Bhref%5E%3D%22https%3A%22%5D%20%7B%0Atext%2Ddecoration%3A%20underline%3B%20%7D%0A%0Acode%20%3E%20span%2Ekw%20%7B%20color%3A%20%23555%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Edt%20%7B%20color%3A%20%23902000%3B%20%7D%20%0Acode%20%3E%20span%2Edv%20%7B%20color%3A%20%2340a070%3B%20%7D%20%0Acode%20%3E%20span%2Ebn%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Efl%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Ech%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Est%20%7B%20color%3A%20%23d14%3B%20%7D%20%0Acode%20%3E%20span%2Eco%20%7B%20color%3A%20%23888888%3B%20font%2Dstyle%3A%20italic%3B%20%7D%20%0Acode%20%3E%20span%2Eot%20%7B%20color%3A%20%23007020%3B%20%7D%20%0Acode%20%3E%20span%2Eal%20%7B%20color%3A%20%23ff0000%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Efu%20%7B%20color%3A%20%23900%3B%20font%2Dweight%3A%20bold%3B%20%7D%20%0Acode%20%3E%20span%2Eer%20%7B%20color%3A%20%23a61717%3B%20background%2Dcolor%3A%20%23e3d2d2%3B%20%7D%20%0A" rel="stylesheet" type="text/css" />
+<style type="text/css">body {
+background-color: #fff;
+margin: 1em auto;
+max-width: 700px;
+overflow: visible;
+padding-left: 2em;
+padding-right: 2em;
+font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+font-size: 14px;
+line-height: 1.35;
+}
+#TOC {
+clear: both;
+margin: 0 0 10px 10px;
+padding: 4px;
+width: 400px;
+border: 1px solid #CCCCCC;
+border-radius: 5px;
+background-color: #f6f6f6;
+font-size: 13px;
+line-height: 1.3;
+}
+#TOC .toctitle {
+font-weight: bold;
+font-size: 15px;
+margin-left: 5px;
+}
+#TOC ul {
+padding-left: 40px;
+margin-left: -1.5em;
+margin-top: 5px;
+margin-bottom: 5px;
+}
+#TOC ul ul {
+margin-left: -2em;
+}
+#TOC li {
+line-height: 16px;
+}
+table {
+margin: 1em auto;
+border-width: 1px;
+border-color: #DDDDDD;
+border-style: outset;
+border-collapse: collapse;
+}
+table th {
+border-width: 2px;
+padding: 5px;
+border-style: inset;
+}
+table td {
+border-width: 1px;
+border-style: inset;
+line-height: 18px;
+padding: 5px 5px;
+}
+table, table th, table td {
+border-left-style: none;
+border-right-style: none;
+}
+table thead, table tr.even {
+background-color: #f7f7f7;
+}
+p {
+margin: 0.5em 0;
+}
+blockquote {
+background-color: #f6f6f6;
+padding: 0.25em 0.75em;
+}
+hr {
+border-style: solid;
+border: none;
+border-top: 1px solid #777;
+margin: 28px 0;
+}
+dl {
+margin-left: 0;
+}
+dl dd {
+margin-bottom: 13px;
+margin-left: 13px;
+}
+dl dt {
+font-weight: bold;
+}
+ul {
+margin-top: 0;
+}
+ul li {
+list-style: circle outside;
+}
+ul ul {
+margin-bottom: 0;
+}
+pre, code {
+background-color: #f7f7f7;
+border-radius: 3px;
+color: #333;
+white-space: pre-wrap; 
+}
+pre {
+border-radius: 3px;
+margin: 5px 0px 10px 0px;
+padding: 10px;
+}
+pre:not([class]) {
+background-color: #f7f7f7;
+}
+code {
+font-family: Consolas, Monaco, 'Courier New', monospace;
+font-size: 85%;
+}
+p > code, li > code {
+padding: 2px 0px;
+}
+div.figure {
+text-align: center;
+}
+img {
+background-color: #FFFFFF;
+padding: 2px;
+border: 1px solid #DDDDDD;
+border-radius: 3px;
+border: 1px solid #CCCCCC;
+margin: 0 5px;
+}
+h1 {
+margin-top: 0;
+font-size: 35px;
+line-height: 40px;
+}
+h2 {
+border-bottom: 4px solid #f7f7f7;
+padding-top: 10px;
+padding-bottom: 2px;
+font-size: 145%;
+}
+h3 {
+border-bottom: 2px solid #f7f7f7;
+padding-top: 10px;
+font-size: 120%;
+}
+h4 {
+border-bottom: 1px solid #f7f7f7;
+margin-left: 8px;
+font-size: 105%;
+}
+h5, h6 {
+border-bottom: 1px solid #ccc;
+font-size: 105%;
+}
+a {
+color: #0033dd;
+text-decoration: none;
+}
+a:hover {
+color: #6666ff; }
+a:visited {
+color: #800080; }
+a:visited:hover {
+color: #BB00BB; }
+a[href^="http:"] {
+text-decoration: underline; }
+a[href^="https:"] {
+text-decoration: underline; }
+
+code > span.kw { color: #555; font-weight: bold; } 
+code > span.dt { color: #902000; } 
+code > span.dv { color: #40a070; } 
+code > span.bn { color: #d14; } 
+code > span.fl { color: #d14; } 
+code > span.ch { color: #d14; } 
+code > span.st { color: #d14; } 
+code > span.co { color: #888888; font-style: italic; } 
+code > span.ot { color: #007020; } 
+code > span.al { color: #ff0000; font-weight: bold; } 
+code > span.fu { color: #900; font-weight: bold; } 
+code > span.er { color: #a61717; background-color: #e3d2d2; } 
+</style>
 
 
 
@@ -105,181 +356,195 @@ code > span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Inf
 
 <h1 class="title toc-ignore">ontologySimilarity Examples</h1>
 <h4 class="author">Daniel Greene</h4>
-<h4 class="date">2021-02-10</h4>
+<h4 class="date">2024-03-29</h4>
 
 
 
 <p>This vignette demonstrates how some typical simple analyses can be done with <code>ontologySimilarilty</code>.</p>
 <ul>
-<li><strong>Computing similarity matrices</strong> - pairwise similarities of ontologically annotated objects, e.g. for use in clustering.</li>
+<li><strong>Computing similarity matrices</strong> - pairwise similarities of ontologically annotated objects, e.g. for use in clustering.</li>
 <li><strong>Assessing statistical significance of similarity</strong> - by computing a <em>p</em>-value by permutation - either within subgroup of population of ontologically annotated objects, or between members of a subgroup and a foreign object.</li>
 </ul>
 <div id="computing-similarity-matrices" class="section level2">
 <h2>Computing similarity matrices</h2>
 <p>Similarity matrices can be computed with the function <code>get_sim_grid</code>. Full detail on using the function can be found in the help file: <code>?get_sim_grid</code>, but briefly, the typical ingredients for computing a similarity matrix are:</p>
 <ul>
-<li>An <code>ontology_index</code> object, e.g. <code>hpo</code> obtained with <code>data(hpo)</code></li>
-<li>A <code>numeric</code> vector of information contents named by term, e.g. see <code>get_term_info_content</code> in the <code>ontologyIndex</code> package. Defaults to <code>descendants_IC(ontology)</code>.</li>
-<li>Some term sets - i.e. a collection of ontologically annotated objects, or from R's point-of-view: a <code>list</code> of <code>character</code> vectors of term IDs. Typically, term annotations are stored in delimited lists in tables, so <code>strsplit</code>ting the column of a <code>data.frame</code> is often needed.</li>
+<li>An <code>ontology_index</code> object, e.g. <code>hpo</code> obtained with <code>data(hpo)</code></li>
+<li>A <code>numeric</code> vector of information contents named by term, e.g. see <code>get_term_info_content</code> in the <code>ontologyIndex</code> package. Defaults to <code>descendants_IC(ontology)</code>.</li>
+<li>Some term sets - i.e. a collection of ontologically annotated objects, or from R’s point-of-view: a <code>list</code> of <code>character</code> vectors of term IDs. Typically, term annotations are stored in delimited lists in tables, so <code>strsplit</code>ting the column of a <code>data.frame</code> is often needed.</li>
 <li>A choice of term similarity - either <code>&quot;lin&quot;</code> or <code>&quot;resnik&quot;</code>.</li>
 </ul>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ontologyIndex)
-<span class="kw">library</span>(ontologySimilarity)
-<span class="kw">data</span>(hpo)
-<span class="kw">set.seed</span>(<span class="dv">1</span>)
-
-information_content &lt;-<span class="st"> </span><span class="kw">descendants_IC</span>(hpo)
-
-term_sets &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">simplify=</span><span class="ot">FALSE</span>, <span class="dt">n=</span><span class="dv">7</span>, <span class="dt">expr=</span><span class="kw">minimal_set</span>(hpo, <span class="kw">sample</span>(hpo<span class="op">$</span>id, <span class="dt">size=</span><span class="dv">8</span>)))
-
-sim_mat &lt;-<span class="st"> </span><span class="kw">get_sim_grid</span>(<span class="dt">ontology=</span>hpo, <span class="dt">term_sets=</span>term_sets)
-sim_mat</code></pre></div>
-<pre><code>##            [,1]      [,2]      [,3]      [,4]      [,5]      [,6]       [,7]
-## [1,] 1.00000000 0.2446414 0.2077991 0.2002343 0.2654494 0.2614949 0.07281863
-## [2,] 0.24464140 1.0000000 0.2079281 0.2604863 0.2292824 0.2146407 0.14427710
-## [3,] 0.20779911 0.2079281 1.0000000 0.2385239 0.2144670 0.2044241 0.23535722
-## [4,] 0.20023428 0.2604863 0.2385239 1.0000000 0.2450322 0.1496954 0.18717361
-## [5,] 0.26544937 0.2292824 0.2144670 0.2450322 1.0000000 0.3306834 0.21330360
-## [6,] 0.26149488 0.2146407 0.2044241 0.1496954 0.3306834 1.0000000 0.16693857
-## [7,] 0.07281863 0.1442771 0.2353572 0.1871736 0.2133036 0.1669386 1.00000000</code></pre>
-<p><code>sim_mat</code> can then of course be used by other packages' clustering functions. Note that many of these expect a distance matrix, not a similarity matrix. Thus transformation may be required, e.g.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">dist_mat &lt;-<span class="st"> </span><span class="kw">max</span>(sim_mat) <span class="op">-</span><span class="st"> </span>sim_mat
-<span class="kw">plot</span>(<span class="kw">hclust</span>(<span class="kw">as.dist</span>(dist_mat)))</code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true"></a><span class="kw">library</span>(ontologyIndex)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true"></a><span class="kw">library</span>(ontologySimilarity)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true"></a><span class="kw">data</span>(hpo)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true"></a><span class="kw">set.seed</span>(<span class="dv">1</span>)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true"></a></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true"></a>information_content &lt;-<span class="st"> </span><span class="kw">descendants_IC</span>(hpo)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true"></a>term_sets &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">simplify=</span><span class="ot">FALSE</span>, <span class="dt">n=</span><span class="dv">7</span>, <span class="dt">expr=</span><span class="kw">minimal_set</span>(hpo, <span class="kw">sample</span>(hpo<span class="op">$</span>id, <span class="dt">size=</span><span class="dv">8</span>)))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true"></a>sim_mat &lt;-<span class="st"> </span><span class="kw">get_sim_grid</span>(<span class="dt">ontology=</span>hpo, <span class="dt">term_sets=</span>term_sets)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true"></a>sim_mat</span></code></pre></div>
+<pre><code>##            [,1]       [,2]       [,3]      [,4]      [,5]      [,6]       [,7]
+## [1,] 1.00000000 0.12423823 0.07890359 0.1361949 0.2450250 0.2394208 0.16635369
+## [2,] 0.12423823 1.00000000 0.22358934 0.1615010 0.1728086 0.1939479 0.08593998
+## [3,] 0.07890359 0.22358934 1.00000000 0.1095122 0.1405417 0.2567339 0.23863840
+## [4,] 0.13619488 0.16150099 0.10951216 1.0000000 0.1488531 0.1917781 0.19899112
+## [5,] 0.24502498 0.17280863 0.14054170 0.1488531 1.0000000 0.2232697 0.14982369
+## [6,] 0.23942083 0.19394788 0.25673388 0.1917781 0.2232697 1.0000000 0.24979645
+## [7,] 0.16635369 0.08593998 0.23863840 0.1989911 0.1498237 0.2497965 1.00000000</code></pre>
+<p><code>sim_mat</code> can then of course be used by other packages’ clustering functions. Note that many of these expect a distance matrix, not a similarity matrix. Thus transformation may be required, e.g.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true"></a>dist_mat &lt;-<span class="st"> </span><span class="kw">max</span>(sim_mat) <span class="op">-</span><span class="st"> </span>sim_mat</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true"></a><span class="kw">plot</span>(<span class="kw">hclust</span>(<span class="kw">as.dist</span>(dist_mat)))</span></code></pre></div>
+<p><img src="data:image/png;base64,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" /><!-- --></p>
 </div>
 <div id="assessing-statistical-significance-of-similarity" class="section level2">
 <h2>Assessing statistical significance of similarity</h2>
-<p>Given a collection of objects annotated with ontological terms, you can represent them as a list of character vectors of term IDs for compatibility with <code>ontologySimilarity</code>'s functions: a list of term sets.</p>
-<p>Given a particular subgroup of interest - for example, in the context of the collection of all genes' GO annotations, this could be a group of genes identified through an experiment - a natural question might be, 'are these objects as a group particularly similar to one another?'.</p>
-<p>We can attempt to answer that question by calculating a 'group similarity': a measure of similarity for a group of ontologically annotated objects, or 'list of term sets'. <code>ontologySimilarity</code> supports two different methods for calculating the similarity of a group.</p>
+<p>Given a collection of objects annotated with ontological terms, you can represent them as a list of character vectors of term IDs for compatibility with <code>ontologySimilarity</code>’s functions: a list of term sets.</p>
+<p>Given a particular subgroup of interest - for example, in the context of the collection of all genes’ GO annotations, this could be a group of genes identified through an experiment - a natural question might be, ‘are these objects as a group particularly similar to one another?’.</p>
+<p>We can attempt to answer that question by calculating a ‘group similarity’: a measure of similarity for a group of ontologically annotated objects, or ‘list of term sets’. <code>ontologySimilarity</code> supports two different methods for calculating the similarity of a group.</p>
 <ul>
 <li><code>&quot;average&quot;</code> - taking the average similarity over all pairs of members.</li>
 <li><code>&quot;min&quot;</code> - taking the minimum similarity over all pairs of members.</li>
 </ul>
 <p>The function <code>get_sim</code> is used to calculate these similarities. The argument <code>group_sim</code> can be either <code>&quot;average&quot;</code> or <code>&quot;min&quot;</code> accordingly.</p>
-<p>The value of the similarity itself doesn't tell you how similar the group members are relative to other subsets. So to evaluate the signficance of the group similarity of subset <code>S</code> within population of term sets <code>L</code>, we compute a <em>p</em>-value by permutation test: that is, we compute the proportion of the 'null' distribution of similarities of all subsets of the same size as <code>S</code> that are greater than the similarity of <code>S</code>.</p>
+<p>The value of the similarity itself doesn’t tell you how similar the group members are relative to other subsets. So to evaluate the signficance of the group similarity of subset <code>S</code> within population of term sets <code>L</code>, we compute a <em>p</em>-value by permutation test: that is, we compute the proportion of the ‘null’ distribution of similarities of all subsets of the same size as <code>S</code> that are greater than the similarity of <code>S</code>.</p>
 <p>This is done by passing the indices of <code>S</code> within <code>L</code> to the function <code>get_sim_p</code>. Instead of computing the <em>p</em>-value exactly by comparing to the similarity of all <code>choose(length(L), length(S))</code> permutations, the function <code>get_sim_p</code> samples a specified maximum number of random subsets.</p>
 <p>For efficiency in the situation where only statistically significant results are of interest, <code>get_sim_p</code> allows the user to configure a threshold triggering the sampling to stop early, should the strength of evidence against it being significant become strong enough. Precisely, this is done using the arguments:</p>
 <ul>
 <li><code>min_its</code> - the minimum number of samples to draw from the null distribution.</li>
 <li><code>max_its</code> - the maximum number of samples.</li>
-<li><code>signif</code> - <em>p</em>-value considered 'significant'.</li>
+<li><code>signif</code> - <em>p</em>-value considered ‘significant’.</li>
 <li><code>log_dismiss</code> - the threshold log probability of significance, below which sampling stops. Probability of significance is computed using the binomial approximation to the Normal. It is up to the user to decide whether this approximation is appropriate given the other parameters.</li>
 </ul>
 <p>The function <code>get_sim_p</code> requires an argument called <code>pop_sim</code> which stores information on the similarities of the entire collection of objects. Depending on the type of parameter you pass, it is done in different ways which suit different scenarios.</p>
 <div id="using-a-similarity-matrix" class="section level3">
 <h3>Using a similarity matrix</h3>
-<p>One way is to pass a matrix having the similarity between all term set pairs. The null distribution is then estimated by measuring the similarity of random subsets of the matrix. This is the fastest method if such a matrix is available as it doesn't require any between-object similarities to be calculated. However computing such a matrix may be infeasible if <code>N</code> is large. Note that this method can be used for any matrix of similarities, and no references to ontologies are required.</p>
+<p>One way is to pass a matrix having the similarity between all term set pairs. The null distribution is then estimated by measuring the similarity of random subsets of the matrix. This is the fastest method if such a matrix is available as it doesn’t require any between-object similarities to be calculated. However computing such a matrix may be infeasible if <code>N</code> is large. Note that this method can be used for any matrix of similarities, and no references to ontologies are required.</p>
 </div>
 <div id="using-a-sim_index-object" class="section level3">
 <h3>Using a <code>sim_index</code> object</h3>
-<p>One way is to pass an argument of class <code>sim_index</code> as created with the function <code>create_sim_index</code>. To create the index you need to pass the list of term sets and an ontology argument. Note that if you do not wish to store the <code>sim_index</code> object you can call the function <code>get_sim_p_from_ontology</code>. See <code>?create_sim_index</code> and <code>?get_sim_p_from_ontology</code> for more details. The null distribution of group similarities is then estimated by calculating group similarities of random subsets of <code>L</code>. This method is useful when you don't want to compute and store a similarity matrix - for example if N is large.</p>
+<p>One way is to pass an argument of class <code>sim_index</code> as created with the function <code>create_sim_index</code>. To create the index you need to pass the list of term sets and an ontology argument. Note that if you do not wish to store the <code>sim_index</code> object you can call the function <code>get_sim_p_from_ontology</code>. See <code>?create_sim_index</code> and <code>?get_sim_p_from_ontology</code> for more details. The null distribution of group similarities is then estimated by calculating group similarities of random subsets of <code>L</code>. This method is useful when you don’t want to compute and store a similarity matrix - for example if N is large.</p>
 <p>See <code>?get_sim</code> and <code>?get_sim_p</code> for further details.</p>
 </div>
 <div id="example" class="section level3">
 <h3>Example</h3>
-<p>In this example we'll generate a collection 100 random sets of HPO terms and map them to minimal sets. We'll then assess whether the subgroup comprising the first 10 sets is significantly similar - first by using the <code>ontology_index</code> object and information content directly, then using a similarity matrix.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">collection &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">simplify=</span><span class="ot">FALSE</span>, <span class="dt">n=</span><span class="dv">100</span>, <span class="dt">expr=</span><span class="kw">minimal_set</span>(hpo, <span class="kw">sample</span>(hpo<span class="op">$</span>id, <span class="dt">size=</span><span class="dv">8</span>)))
-
-<span class="co">#lets measure the group similarity of objects 1-10</span>
-group &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span>
-
-<span class="kw">get_sim_p_from_ontology</span>(
-    <span class="dt">ontology=</span>hpo, 
-    <span class="dt">information_content=</span>information_content,
-    <span class="dt">term_sets=</span>collection,
-    <span class="dt">group=</span>group)</code></pre></div>
-<pre><code>## [1] 0.9240759</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">sim_mat &lt;-<span class="st"> </span><span class="kw">get_sim_grid</span>(<span class="dt">ontology=</span>hpo, <span class="dt">term_sets=</span>collection)
-
-<span class="co">#p-value by &quot;matrix&quot; method</span>
-<span class="kw">get_sim_p</span>(
-    sim_mat,
-    <span class="dt">group=</span>group)</code></pre></div>
-<pre><code>## [1] 0.9110889</code></pre>
+<p>In this example we’ll generate a collection 100 random sets of HPO terms and map them to minimal sets. We’ll then assess whether the subgroup comprising the first 10 sets is significantly similar - first by using the <code>ontology_index</code> object and information content directly, then using a similarity matrix.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true"></a>collection &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">simplify=</span><span class="ot">FALSE</span>, <span class="dt">n=</span><span class="dv">100</span>, <span class="dt">expr=</span><span class="kw">minimal_set</span>(hpo, <span class="kw">sample</span>(hpo<span class="op">$</span>id, <span class="dt">size=</span><span class="dv">8</span>)))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true"></a><span class="co">#lets measure the group similarity of objects 1-10</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true"></a>group &lt;-<span class="st"> </span><span class="dv">1</span><span class="op">:</span><span class="dv">10</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true"></a></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true"></a><span class="kw">get_sim_p_from_ontology</span>(</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true"></a>    <span class="dt">ontology=</span>hpo, </span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true"></a>    <span class="dt">information_content=</span>information_content,</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true"></a>    <span class="dt">term_sets=</span>collection,</span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true"></a>    <span class="dt">group=</span>group)</span></code></pre></div>
+<pre><code>## [1] 0.2317682</code></pre>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true"></a>sim_mat &lt;-<span class="st"> </span><span class="kw">get_sim_grid</span>(<span class="dt">ontology=</span>hpo, <span class="dt">term_sets=</span>collection)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true"></a><span class="co">#p-value by &quot;matrix&quot; method</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true"></a><span class="kw">get_sim_p</span>(</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true"></a>    sim_mat,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true"></a>    <span class="dt">group=</span>group)</span></code></pre></div>
+<pre><code>## [1] 0.2157842</code></pre>
 </div>
 <div id="against-a-vector" class="section level3">
 <h3>Against a vector</h3>
-<p>Another scenario might be: you've measured the similarity between a collecton of ontologically annotated objects and a foreign object, and have obtained a vector of similarities, and now, you're interested in whether some subgroup of the collection are particularly similar on average. In this case you can pass a <code>numeric</code> vector to <code>get_sim_p</code>.</p>
-<p>In this example, we'll generate some hypothetical genes with GO annotation [i.e. randomly sample 8 GO terms per gene and map to minimal sets]. Then - supposing we are interested in genes which have functions bearing on the 'golgi apparatus' - use <code>get_profile_sims</code> to calculate the similarity of the genes to an 'ontological profile' containing golgi related terms. Finally - supposing for example genes 1-3 came up in the results of an experiment - we'll calculate a similarity <em>p</em>-value of genes 1-3 to the 'golgi GO profile' using <code>get_sim_p</code>, passing it the pre-computed profile similarities.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">data</span>(go)
-
-genes &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">simplify=</span><span class="ot">FALSE</span>, <span class="dt">n=</span><span class="dv">100</span>, <span class="dt">expr=</span><span class="kw">minimal_set</span>(go, <span class="kw">sample</span>(go<span class="op">$</span>id, <span class="dt">size=</span><span class="dv">8</span>)))
-<span class="kw">names</span>(genes) &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;gene&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(genes))
-genes[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</code></pre></div>
+<p>Another scenario might be: you’ve measured the similarity between a collecton of ontologically annotated objects and a foreign object, and have obtained a vector of similarities, and now, you’re interested in whether some subgroup of the collection are particularly similar on average. In this case you can pass a <code>numeric</code> vector to <code>get_sim_p</code>.</p>
+<p>In this example, we’ll generate some hypothetical genes with GO annotation [i.e. randomly sample 8 GO terms per gene and map to minimal sets]. Then - supposing we are interested in genes which have functions bearing on the ‘golgi apparatus’ - use <code>get_profile_sims</code> to calculate the similarity of the genes to an ‘ontological profile’ containing golgi related terms. Finally - supposing for example genes 1-3 came up in the results of an experiment - we’ll calculate a similarity <em>p</em>-value of genes 1-3 to the ‘golgi GO profile’ using <code>get_sim_p</code>, passing it the pre-computed profile similarities.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true"></a><span class="kw">data</span>(go)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true"></a>genes &lt;-<span class="st"> </span><span class="kw">replicate</span>(<span class="dt">simplify=</span><span class="ot">FALSE</span>, <span class="dt">n=</span><span class="dv">100</span>, <span class="dt">expr=</span><span class="kw">minimal_set</span>(go, <span class="kw">sample</span>(go<span class="op">$</span>id, <span class="dt">size=</span><span class="dv">8</span>)))</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true"></a><span class="kw">names</span>(genes) &lt;-<span class="st"> </span><span class="kw">paste</span>(<span class="st">&quot;gene&quot;</span>, <span class="dv">1</span><span class="op">:</span><span class="kw">length</span>(genes))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true"></a>genes[<span class="dv">1</span><span class="op">:</span><span class="dv">3</span>]</span></code></pre></div>
 <pre><code>## $`gene 1`
-## [1] &quot;GO:0042808&quot; &quot;GO:0090448&quot; &quot;GO:0001983&quot; &quot;GO:0044179&quot; &quot;GO:0010026&quot;
-## [6] &quot;GO:0042171&quot; &quot;GO:0000903&quot; &quot;GO:0019502&quot;
+## [1] &quot;GO:1901932&quot; &quot;GO:0045345&quot; &quot;GO:2000601&quot; &quot;GO:2000478&quot; &quot;GO:1905673&quot;
+## [6] &quot;GO:1902020&quot; &quot;GO:0001528&quot; &quot;GO:0036524&quot;
 ## 
 ## $`gene 2`
-## [1] &quot;GO:1904778&quot; &quot;GO:0070210&quot; &quot;GO:1990253&quot; &quot;GO:0090577&quot; &quot;GO:0006777&quot;
-## [6] &quot;GO:0071179&quot; &quot;GO:0035934&quot; &quot;GO:0072664&quot;
+## [1] &quot;GO:0043932&quot; &quot;GO:1990162&quot; &quot;GO:0047654&quot; &quot;GO:0036067&quot; &quot;GO:0032061&quot;
+## [6] &quot;GO:0034645&quot; &quot;GO:0047955&quot; &quot;GO:0032161&quot;
 ## 
 ## $`gene 3`
-## [1] &quot;GO:0046421&quot; &quot;GO:0009237&quot; &quot;GO:1903351&quot; &quot;GO:0060836&quot; &quot;GO:0050202&quot;
-## [6] &quot;GO:0002530&quot; &quot;GO:0042703&quot; &quot;GO:1903865&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">go_profile &lt;-<span class="st"> </span><span class="kw">as.character</span>(go<span class="op">$</span>id[<span class="kw">grep</span>(<span class="dt">x=</span>go<span class="op">$</span>name, <span class="dt">pattern=</span><span class="st">&quot;golgi apparatus&quot;</span>, <span class="dt">ignore.case=</span><span class="ot">TRUE</span>)])
-go<span class="op">$</span>name[go_profile]</code></pre></div>
-<pre><code>##                                GO:0005794 
-##                         &quot;Golgi apparatus&quot; 
-##                                GO:0034067 
-## &quot;protein localization to Golgi apparatus&quot; 
-##                                GO:0044177 
-##               &quot;host cell Golgi apparatus&quot; 
-##                                GO:0044431 
-##                    &quot;Golgi apparatus part&quot; 
-##                                GO:0045053 
-##    &quot;protein retention in Golgi apparatus&quot; 
-##                                GO:0048280 
-##     &quot;vesicle fusion with Golgi apparatus&quot; 
-##                                GO:1904381 
-##        &quot;Golgi apparatus mannose trimming&quot;</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">profile_sims &lt;-<span class="st"> </span><span class="kw">get_profile_sims</span>(<span class="dt">ontology=</span>go, <span class="dt">term_sets=</span>genes, <span class="dt">profile=</span>go_profile)
-profile_sims</code></pre></div>
+## [1] &quot;GO:1904457&quot; &quot;GO:0090120&quot; &quot;GO:0050971&quot; &quot;GO:0140023&quot; &quot;GO:0045668&quot;
+## [6] &quot;GO:0016730&quot; &quot;GO:0009388&quot; &quot;GO:1903177&quot;</code></pre>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true"></a>go_profile &lt;-<span class="st"> </span><span class="kw">as.character</span>(go<span class="op">$</span>id[<span class="kw">grep</span>(<span class="dt">x=</span>go<span class="op">$</span>name, <span class="dt">pattern=</span><span class="st">&quot;golgi apparatus&quot;</span>, <span class="dt">ignore.case=</span><span class="ot">TRUE</span>)])</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true"></a>go<span class="op">$</span>name[go_profile]</span></code></pre></div>
+<pre><code>##                                                   GO:0005794 
+##                                            &quot;Golgi apparatus&quot; 
+##                                                   GO:0034067 
+##                    &quot;protein localization to Golgi apparatus&quot; 
+##                                                   GO:0044177 
+##                                  &quot;host cell Golgi apparatus&quot; 
+##                                                   GO:0044431 
+##                              &quot;obsolete Golgi apparatus part&quot; 
+##                                                   GO:0045053 
+##                       &quot;protein retention in Golgi apparatus&quot; 
+##                                                   GO:0048280 
+##                        &quot;vesicle fusion with Golgi apparatus&quot; 
+##                                                   GO:0098791 
+##                             &quot;Golgi apparatus subcompartment&quot; 
+##                                                   GO:0106214 
+##          &quot;regulation of vesicle fusion with Golgi apparatus&quot; 
+##                                                   GO:0106215 
+## &quot;negative regulation of vesicle fusion with Golgi apparatus&quot; 
+##                                                   GO:0106216 
+## &quot;positive regulation of vesicle fusion with Golgi apparatus&quot; 
+##                                                   GO:0140450 
+##                       &quot;protein targeting to Golgi apparatus&quot; 
+##                                                   GO:0140820 
+##                       &quot;cytosol to Golgi apparatus transport&quot; 
+##                                                   GO:0150051 
+##                               &quot;postsynaptic Golgi apparatus&quot; 
+##                                                   GO:1904381 
+##                           &quot;Golgi apparatus mannose trimming&quot;</code></pre>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true"></a>profile_sims &lt;-<span class="st"> </span><span class="kw">get_profile_sims</span>(<span class="dt">ontology=</span>go, <span class="dt">term_sets=</span>genes, <span class="dt">profile=</span>go_profile)</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true"></a>profile_sims</span></code></pre></div>
 <pre><code>##     gene 1     gene 2     gene 3     gene 4     gene 5     gene 6     gene 7 
-## 0.16006231 0.36330686 0.15036853 0.22652958 0.18794782 0.17695368 0.19529763 
+## 0.27530371 0.12474625 0.19976745 0.24672759 0.10523249 0.15628638 0.23281948 
 ##     gene 8     gene 9    gene 10    gene 11    gene 12    gene 13    gene 14 
-## 0.22087894 0.21197303 0.17336796 0.20836591 0.21939688 0.13014403 0.15867005 
+## 0.15448871 0.25966833 0.21774431 0.12656209 0.18187213 0.30085917 0.21317191 
 ##    gene 15    gene 16    gene 17    gene 18    gene 19    gene 20    gene 21 
-## 0.17499251 0.11778417 0.20916234 0.24588939 0.19569134 0.17265063 0.13880939 
+## 0.23289027 0.15117861 0.13660737 0.14578043 0.17900227 0.13421157 0.19224418 
 ##    gene 22    gene 23    gene 24    gene 25    gene 26    gene 27    gene 28 
-## 0.20579631 0.21861271 0.21572184 0.14901410 0.21713831 0.15142360 0.24041101 
+## 0.04973134 0.16210320 0.12294183 0.22104072 0.23945179 0.17785741 0.21171834 
 ##    gene 29    gene 30    gene 31    gene 32    gene 33    gene 34    gene 35 
-## 0.26822096 0.19571609 0.21803567 0.15733712 0.33844835 0.16718688 0.17042658 
+## 0.06941444 0.05575860 0.17205003 0.23779326 0.13394678 0.23766604 0.23496997 
 ##    gene 36    gene 37    gene 38    gene 39    gene 40    gene 41    gene 42 
-## 0.19293417 0.20607445 0.14545869 0.20865281 0.18442403 0.11716919 0.10020522 
+## 0.16572126 0.19126190 0.02635538 0.16729715 0.09793451 0.26996731 0.15410624 
 ##    gene 43    gene 44    gene 45    gene 46    gene 47    gene 48    gene 49 
-## 0.19929645 0.17007827 0.21805553 0.09413583 0.21786613 0.14317189 0.13590454 
+## 0.17127003 0.09570026 0.21663997 0.04580012 0.12921095 0.21185296 0.12763852 
 ##    gene 50    gene 51    gene 52    gene 53    gene 54    gene 55    gene 56 
-## 0.23048749 0.05805750 0.24503326 0.25506341 0.19694521 0.13164966 0.13642425 
+## 0.07199794 0.10513003 0.16745669 0.22850187 0.18056288 0.08933699 0.16801761 
 ##    gene 57    gene 58    gene 59    gene 60    gene 61    gene 62    gene 63 
-## 0.11844335 0.15015852 0.26751020 0.21750894 0.22589648 0.10518084 0.17486739 
+## 0.20043316 0.21678931 0.16860107 0.10030273 0.17360815 0.23118085 0.24008621 
 ##    gene 64    gene 65    gene 66    gene 67    gene 68    gene 69    gene 70 
-## 0.20168300 0.18741066 0.16159574 0.17234251 0.16520989 0.13031360 0.09782839 
+## 0.13980371 0.08823440 0.17500431 0.19274382 0.16729462 0.13581660 0.19187397 
 ##    gene 71    gene 72    gene 73    gene 74    gene 75    gene 76    gene 77 
-## 0.20161116 0.15014327 0.10236836 0.25371221 0.18303291 0.11624643 0.14907601 
+## 0.23430015 0.19131257 0.08795635 0.14897971 0.21981568 0.16556486 0.24114802 
 ##    gene 78    gene 79    gene 80    gene 81    gene 82    gene 83    gene 84 
-## 0.23161513 0.22735275 0.08978890 0.17229930 0.15556540 0.24565904 0.21398295 
+## 0.10097400 0.07978239 0.15683615 0.23771103 0.23250544 0.27411719 0.17752660 
 ##    gene 85    gene 86    gene 87    gene 88    gene 89    gene 90    gene 91 
-## 0.18211758 0.17422597 0.12916763 0.34176380 0.16773958 0.11742309 0.20856422 
+## 0.09131716 0.19676421 0.29589990 0.11022005 0.24103949 0.11376838 0.06800786 
 ##    gene 92    gene 93    gene 94    gene 95    gene 96    gene 97    gene 98 
-## 0.22196440 0.17466233 0.28268721 0.18958718 0.24425677 0.08392443 0.14486453 
+## 0.14784785 0.18108009 0.15871761 0.10811737 0.17706032 0.20962010 0.14944516 
 ##    gene 99   gene 100 
-## 0.17380324 0.18886146</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co">#Note that you can pass character vectors to get_sim_p</span>
-<span class="kw">get_sim_p</span>(profile_sims, <span class="kw">c</span>(<span class="st">&quot;gene 1&quot;</span>, <span class="st">&quot;gene 2&quot;</span>, <span class="st">&quot;gene 3&quot;</span>))</code></pre></div>
-<pre><code>## [1] 0.1098901</code></pre>
+## 0.19124702 0.10623856</code></pre>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true"></a><span class="co">#Note that you can pass character vectors to get_sim_p</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true"></a><span class="kw">get_sim_p</span>(profile_sims, <span class="kw">c</span>(<span class="st">&quot;gene 1&quot;</span>, <span class="st">&quot;gene 2&quot;</span>, <span class="st">&quot;gene 3&quot;</span>))</span></code></pre></div>
+<pre><code>## [1] 0.1648352</code></pre>
 </div>
 <div id="sampling-the-null-distribution" class="section level3">
 <h3>Sampling the null distribution</h3>
-<p>Because of the 'early stopping', <code>get_sim_p</code> should be sufficiently performant to loop or <code>lapply</code> over a long list of subgroups. However, <em>p</em>-values for groups of the same size are technically being computed by comparison with the same null distribution. Thus, if the number of applications required is <em>very</em> long, the user could consider storing the null distributions for particular group sizes, and computing <em>p</em>-values later by comparing with the actual group similarities (calculated with <code>get_sim</code>).</p>
+<p>Because of the ‘early stopping’, <code>get_sim_p</code> should be sufficiently performant to loop or <code>lapply</code> over a long list of subgroups. However, <em>p</em>-values for groups of the same size are technically being computed by comparison with the same null distribution. Thus, if the number of applications required is <em>very</em> long, the user could consider storing the null distributions for particular group sizes, and computing <em>p</em>-values later by comparing with the actual group similarities (calculated with <code>get_sim</code>).</p>
 <p>The function <code>sample_group_sim</code> can be used to sample from the null distribution of similarities.</p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">group_sim &lt;-<span class="st"> </span><span class="kw">get_sim</span>(sim_mat, <span class="dt">group=</span>group)
-
-samples &lt;-<span class="st"> </span><span class="kw">sample_group_sim</span>(sim_mat, <span class="dt">group_size=</span><span class="kw">length</span>(group))
-<span class="kw">hist</span>(samples)
-<span class="kw">abline</span>(<span class="dt">v=</span>group_sim, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</code></pre></div>
-<p><img src="data:image/png;base64,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" /><!-- --></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true"></a>group_sim &lt;-<span class="st"> </span><span class="kw">get_sim</span>(sim_mat, <span class="dt">group=</span>group)</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true"></a>samples &lt;-<span class="st"> </span><span class="kw">sample_group_sim</span>(sim_mat, <span class="dt">group_size=</span><span class="kw">length</span>(group))</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true"></a><span class="kw">hist</span>(samples)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true"></a><span class="kw">abline</span>(<span class="dt">v=</span>group_sim, <span class="dt">col=</span><span class="st">&quot;red&quot;</span>)</span></code></pre></div>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASAAAAEgCAIAAACb4TnXAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAgAElEQVR4nO3daUAT1/438DMsTSCiLIEYdoGwKCgqolKsRdCLBeSKUG0rWhGtaFGk2OJ+tYq14FJ3XKpWWlSgLnipVQH3FqWiIBUBBQEhCAKyCQkkz4t5mn9uIANCTgjh93mVnDk5+c2QL7MlM4RQKEQAADxU+roAAJQZBAwAjCBgAGAEAQMAIwgYABhBwADACAIGAEYQMAAwgoABgBEEDACMIGAAYAQBAwAjCBgAGEHAAMAIAgYARhAwADCCgAGAEQQMAIwgYABgBAEDACMIGAAYQcAAwAgCBgBGEDAAMIKAAYARBAwAjCBgAGAEAQMAIwgYABhBwADACAIGAEb9O2A+Pj4EQRAE8ejRI/H233//nWxftGgR2TJ9+nSCIDQ0NLo58t27d1euXLly5cq8vDwZF63wfvrpJwsLC3V1dUtLy76u5R28659YPtT6ugAFlZOTs3v3boSQp6enra1tX5cjP1wuNzg4mM/nI4Sam5v7upx+b6AELDQ09N///reqqmpfF6Lo8vLyyHQtW7YsKiqqr8vp9/r3JmL37d27d8mSJaGhoaKWlJQUd3d3NputpaXl4OAQGRlZXV1NTlq+fPn27dvJx2FhYcHBweRjPp+/ZcsWV1dXbW3tYcOGzZgx4/r16xJv1NzcvHLlSlNTUw6Hs23btsTERHJj9c6dO2SHcePGEQRhYmLS2to6f/78IUOGVFZWIoSEQuHp06ddXV1ZLJampqa1tfXSpUtLS0tFI3M4HIIgRo8efenSJQ6Hw2AwnJycYmNjEULx8fEuLi5aWlp2dnYHDx6kWA5dzkJrayv5wMHBYfDgwZ0OQrHoMM2IiYkJQRDjxo3Ly8vz8fHR09MbO3bsf/7zHx6PRzGzBQUFn3zyCYfD0dLSGjNmzP79+9va2ro/I7Ih7M+8vb3JuXj48KF4++XLl8n24OBgssXT0xMhRKfTyafHjx/vuCg4HE5dXZ1QKPTw8BBvnzBhglAorKurGzVqlMRLCILYsmWL6H3b2trGjx8v3sHR0ZF8cPv2bbKPk5MTQsjY2HjZsmXkJC6XKxQKRZEWZ2VlVV9fT77QysoKIaSpqami8j//Fn19fQmCEG/55ZdfOl1cXc6CxIyjzj4e1IsO04wYGxsjhMzMzExMTMQ7ODs783i8Tv/EqampgwYNkijD29ubz+d3c0ZkQkkCJo20gJmamiKEhg4devny5YyMDNGaLTo6muxw6NAhsuXy5ctkS1hYGNni5+eXlpYWFxfHYrEQQmpqarm5uWSfH374QfSHTEpK+vjjj0WVSARMTU0NIeTk5OTt7V1TU8Pn8zU1NRFCFhYWV65cuXnzZkBAAPnC5ORk8oXk5xIhNGXKlFOnTn322WeiwcmWTz/9lHzq4+PT6eLqchaWLl3K4XDIPqampk5OTh0HoV50mGaEDBhCiMlkxsbGkodhyJZTp051/BPz+Xxyz9nW1jYjI6OoqEj072zfvn3d/AzIxEAM2Nu3b8mpI0eOzM/PFwqFra2ta9asiYyMPHv2LNlfImAtLS3q6uoIoREjRrS3t5N9RBtXixcvJlvMzMwQQkZGRuS/VYFAIFqhSQQMIXTkyBHRjJSXlwcHBwcHB1+8eJFsEf1//eGHH8gW0efyxYsXQqGQx+Npa2uTLcXFxWSR5Eadg4NDx2XVzVkQrfwPHTrUcZAuFx2mGREF7MqVK2TLkydPyNWdu7t7xz/xb7/9RvZPSkoip7a1tbHZbISQo6NjNz8DMqEkBznWrl0rvvHw5MkT0cqkIzqdzuFwCgoKsrOzra2tR4wY8dFHH02fPv2DDz6QdhSkoKCA3PWfPXu2aMNm8uTJQ4cO5XK55KH8pqamkpIShJCPjw/5USYI4rPPPsvIyOg4II1GW7hwoegpm80+cuRITU3N1atXIyMjc3Jy0tPTyUlCoVD8hRwOh/zXq66uzmQy6+rqrKysyGDTaDRdXV1yS6xns9ClLhcd1hlhMplTp04lH9va2jo6OmZlZeXn53esUzQ7mzZtio6OJh83NjYihLKzswUCQQ8+Az2jJAELCAgQ37tITU2lCBhCKCEhYdmyZeSBh9zc3Nzc3OjoaAsLi6SkJNFekzgyOQghQ0ND8XYjIyMul1tcXIwQev78OfmBIP9TkiT2GUSYTKbE/sbevXsjIiLIvXYVFRVLS8uCgoKOL6TRaBItdDqdYk7faRa6o8tFh29Ghg4dKv7U0NAwKyuLy+V27Pny5UvyQXZ2tsQkgUBQX1+vra39rp+BnhkoRxEljBo16vbt28+fP9+1a9fkyZPJf1rPnz9fsmRJp/1FOamoqBBvJ58aGRkhhJhMJtkofiTq1atXnQ4oka6cnJywsDAejzdu3Ljffvutvr4+Li6uZ7MmTXdmoTuoFx3WGSEPt4qQ0SJXehJEm5Tk5p8Ecov0XT8DPTMQA5adnb1jx44dO3aoqamFhYVdv369uLiY3Gl++vSpRGdypcThcMjDEgkJCaLtlps3b5aXlyOE7OzsEEJsNps8bJWSkiIQCMg+CQkJ3Snpzp075EtWr17t6enJYDCysrJkMa//pzuz0KUuFx3WGamqqkpLSyMfFxQUkCMPHz68Y09ra2vywePHj0WNx44d27Fjx7Fjx7ozI7KiJJuI76SxsTEiIgIhlJ6evmnTJgaD8ejRo7q6OoSQaDtTtCF+7949V1fXQYMGLVmyZN++fdnZ2XPmzAkNDX358iV5UE5VVXX58uVk5wULFuzdu/fZs2effPJJYGDgr7/+eu3ate6UxGAwyAexsbH6+vplZWUbNmwgWzrdoeoBOp3enVmg1uWiwz0jn3766bZt2zQ0NNavX08mWXRoVNzUqVOtrKwKCwtXrlypq6trYmJy7Ngx8rz52rVruzMjMiPDAybyJ+08mOhj3elRxPb29k4PP6qrq4uO9d26dUvUTp4Hq6mpsbe3l3gJQRCbN28WvW95eblo44QketrxPJh4wVwuV0dHR/yFNjY25IOQkBCyD3nwzd7eXvSqji3m5uYSLeK6MwvURxG7XHSYZoRcjKamphI7kIGBgaKXSJyJSUlJ6fi9RDc3t6ampm5+BmRiIAZMKBS+fft23759EyZMGDp06HvvvWdmZubn55eZmSk+yLp168jvInz88cdkS2tr66ZNmyZOnDh48GAzMzMvL6+0tDSJkioqKj755BNDQ0MzM7Pw8PCff/65OwETCoUZGRnvv//+oEGDHBwcvv32Wy6XS27RqaioNDQ0CGURsO7MAnXAurPocMwIGTAnJ6fHjx97enrq6OiMGTMmOjpaIBCIXiLxJxYKhTk5OTNnzjQzMyO/ybFnz56Wlpbuz4hMEEIZbYEAhBD5pX4NDQ3RPkBMTMyqVasQQqWlpRIrN9B9JiYmZWVlTk5O9+/f7+ta3s1APMiBz5w5cxwdHe3s7M6cOdPQ0HDjxo2YmBiEkJ2dHaRrYBqIBznwOXbsmI+PT01NzZw5c0SNQ4cO7eaxRKB8IGCy5OLiUlRUdPTo0cePH1dVVRkZGTk6Os6fP1/RfgXY77i6ulZXV4s2vPsR2AcDACPYBwMAIwgYABhBwADACAIGAEYQMAAwgoABgBEEDACMIGAAYAQBAwAjCBgAGEHAAMAIAgYARhAwADCCgAGAEQQMAIwgYABgBAEDACMIGAAYQcAAwAgCBgBGEDAAMIKAAYARBAwAjCBgAGAEAQMAIwgYABhBwADACAIGOrNzJ3rwoK+LUAYQMNCZP/5Az5/3dRHKAAIGAEYQMAAwghvwKaGCgoJ169Z1eee3adOmBQcHy6ekAQsCpoQeP3785MmTzz//nKJPXl5eUlISBAw3CJhyMjAwmDZtGkUHTU3N0tJSudUzYME+GAAYQcAAwAgCBgBGEDAAMIKAAYARBAwAjCBgAGAEAQMAIwgYABhBwADACAIGAEYQMAAwkhqw77//Hr4MCkAvSQ1YVFSUmZnZ5MmTDx8+XFNTI8+aeuz27duW0unp6d29e7evawQDi9Sfq1RWVl6+fPn06dPh4eFffvmlp6fnZ5995uPjo6mpKc/63smECROuXr0qbaq/v7+KSr/fJObz+dnZ2dR9nj171uU4bW1tr1+/vnbtWqdTR756xc3OfqWtbWJiYmNj05NCAUKIImA0Gs3X19fX17e5ufnSpUunT5+eP3++urr6zJkzP/30Uw8PDzU1hfstmZqamoWFhbSpNBpNnsVgcu7cucWLFxsZGVH0efXq1ahRo6jHKSgoKCgoWL9+fadTt+bnp3K555OSWCxWWlpaz8sd8LoOiaampqOjY3FxcWFhYU5Ozvnz5+Pi4lgs1nfffTd//nw5lAjEtbW1vf/++9u3b6fos2vXrhcvXlCPIxAI7O3tDx482OlU06++svrXvzi6uidOnOhxqQBRH0XMzMxct27diBEjbGxsdu3a9f7771+9erWmpub58+c+Pj5BQUGVlZVyKxSA/kjqGszExKSsrMzU1NTPzy82NtbFxUW0A2Nubr5z584jR47k5eWxWCx5lQpA/yM1YIGBgX5+fk5OTp1O1dDQKCwsNDMzw1YYAMqA6jA9i8Xas2dPS0sLQig/P3/nzp0vX74kp6qqqlpaWirgcQ4AFIrUgOXm5g4fPnzVqlV8Ph8h1NzcHBUVZW9vf//+fTmWB0D/JjVg4eHh5MFDLS0thJCjo2NZWdmkSZO+/vprOZYHQP8mNWD3799funQpm80WtdDp9C+//PIB3HQDgG6TGjB9ff26ujqJxqKiIgMDA8wlAaA8pAZs9uzZa9asSUxMbGtrQwgJBILk5OQ1a9bMnDlTjuUB0L9JPQy4cePG8vLy2bNnq6ioMJnMmpoaHo8XEBCwZcsWedYHQL8mNWCqqqpHjx795ptv/vzzz5KSkqFDh44bN27kyJHyLA6A/q6LE1kcDofD4cinFACUj9SA1dTUbNiw4eHDh+3t7RKT/vjjD8xVAaAkpAbsiy++OH/+/PTp0+HnQAD0mNSAXblyJSoqatWqVfKsBgAl0/lhej6fX19fP378eDlXA4CS6Txg6urq7u7uR44ckXM1ACgZqZuIfn5+69atGzNmjKenp66uLkEQoklfffWVXGoDoN+TGrBt27YxGIyqqqpTp05JTFLYgF2/fn3KlClCobDTqSoqKvATbCBnUgPWHy+K+OGHHwoEAmlTJ06cCL+/BnLW9WXMSktLHz9+LIdSAFA+VAH7/fff2Wy2qampg4MDQsjDw2Pv3r3yKgwAZSA1YHFxcd7e3jNmzBDtg7m4uKxYseLw4cNYC+LxeNXV1bW1tVjfBQD5kBqwbdu2hYaGxsbGTp8+nWzZvHlzREQEppVYaWnp2rVrLSws6HS6vr6+rq4unU7ncDirV68uKirC8Y4AyIHUgxzFxcVTp06VaHRzcztw4IDMi8jKynJ1ddXT0/P29ra1tdXV1RUKhXV1dfn5+WfPno2NjU1PT+/yUrUAKCCpAbO1tc3IyBCtvkiZmZmWlpYyLyI8PHzy5MlJSUkaGhoSk3bt2jVv3ryIiAiKi84DoLCkBiw0NHTx4sVqamru7u4IoaqqquTk5C1btnz33XcyL+LBgwc//vhjx3QhhNTU1JYuXerj4yPzNwVADqQG7PPPP29oaNi0aRN5fwADAwMajRYeHh4WFibzIqytrdPS0mbNmtXp1NTUVPhGP+inqH5wGRoaGhQUlJubW1xcrK+v7+DgwGQycRQRGRkZEBBQVFTk7+9vZ2eno6NDEAS5D3b+/PkLFy6cOXMGx/sCao2NjUVFRZGRkdTd7O3t586dK5+S+p0uftHMYDCcnZ2dnZ2xFjFr1qzk5OQdO3YsXLhQvJ0gCDc3t+TkZIldQSAfZWVlAoGAx+NR9OFyudevX4eASSM1YBS7PcnJyTKvw8vLy8vLq7a2try8vKKiAiHEYrGMjIx0dXVl/l6g+9hsdlBQEEWH7OzsPXv2yK2efkdqwCS2Buvq6u7evVtdXb106VJ81ejo6DAYDBaLpaqqqqOjg++NFJNAIHjz5g11n6amJvkUA2RCasCOHz8u0dLU1OTn55eRkYGjjtLS0kOHDsXHxxcXF5Nfh6fRaCYmJv7+/osXLx42bBiON1U08fHxQUFBdDqdok9LS4uHh4fcSgK99A63R2EwGGvWrPnwww+rqqr09fVlWAScaCa1tLR4e3tv2rSJok9UVFSXazmgON7t/kPFxcUaGhoyP5YIJ5qBspIasJ9//lmipbCwMDY2dvz48eK/bpYJONEMlJXUgAUHB0u0qKiojBw5Utpts3sDTjQDZSU1YG/fvpVbEXCiGSgrhbgHLJxoBspKasC6PE5Ip9NLSkpktT8mkxPNra2tFFc3aGpqknY9HAAwkRqwmJiYoKAgMzMzf39/Q0NDLpebmJhYXV29efNmGo1G9mlpaen0yESP9fJE819//bV8+XJpU4uKiqqrq3tXIADvRmrALl++7O7unpKSoqb2//ts2bLF29s7Ly8Px28uZXKi2cXFJTMzU9rUiRMnyvb0HQBdkhqw9PT0AwcOiNKFEFJTUwsJCVm2bJnMAwYnmoGykhowGo1WUlIi0VhSUkJx4cEegxPNQFlJveiNr6/vxo0bxb84/9///nf9+vXTpk2TeREPHjxYuHAhxYlmig0/ABSZ1DXY999/X1RUNGPGDF1dXUNDw/Ly8pqaGmdn5927d8u8CDjRDJSV1IDR6fTk5OSMjIy7d++WlJQYGBiMHj3a09MTRxFwohkoqy5ONI8fP97Q0PDNmzf29vb4ioATzUBZUQXs999///zzz7lcLkJIKBR6eHj4+vqGhobiqAN+0QyUktSAxcXFLViwICgoaNKkSYGBgeifS2fTaLTFixdjqkZHR0dHR2fEiBGYxgdAzqjuDxYaGrpz587Xr1+TLZs3b25padm7dy++gAGgZKQeppd26Wy4UjwA3acQl86+ePHirVu3qPtER0fL/H0BwE0hLp2tqal58+bNe/fu0el0Y2PjTvtAwEB/pBCXzvbw8HBzc3NzcxMKhV2uygDoRzoPGJ/PLy8vX7RokXwunY0QUlVVnT179unTpzGND0Cf6DxgAoFg9OjRR48e9fPzk8Ols0m+vr4WFhZyeCMA5Kbzo4g0Gi0oKOinn36S50+AjY2N4RsbQMlI3Qdzdna+ceMG+f1DFoulovJ/UVyxYoVcagOg35MaMFGKTp48KW0SAICaZMBSU1MdHBwMDAzILwQCAHpDMmAeHh6JiYmin2Zt3bp11qxZtra2ci+sJ6qqqi5cuCDtN9dVVVXUt7oCQOa6+LnKunXrbG1t+0vAKisr79+/L21qY2Njc3OzPOsR99dffx0+fJi6T15eHr4TIfjweLznz59T92EymYMHD5ZPPQpFIS48Kiv29vaxsbHSpmZnZ2tra8uzHnF//vlnVlbWRx99RNHn3r17/S5gJSUlubm5kydPpujD5/NNTU3v3bsnt6oUh1IFTMFZWVn5+/tTdHj06JHcipEVHo9na2vb8VYh4vLz86nvyaTEpH6bHgDQexAwADDqJGALFizQ/4fEU1EjAKA7JPfBcHxZHoABSzJgu3bt6pM6AFBKsA8GAEYQMAAwgoABgBEEDACMIGAAYAQBAwAjCBgAGMGXfWUgISEhMjKSuk99fX3HKyUPEAKBoL6+PiEhgbqbubn5uHHj5FOS3EDAZODFixejR48ODg6m6LNt2za51aNoysrKqqurjx49StGnubn51atXT58+lVtV8qFwAePxePX19aqqqjo6On1dyzvQ0tKSdk1iUqc3yB0ghEKhoaHhjh07KPq8ePFi5cqVcitJbhRlH6y0tHTt2rUWFhZ0Ol1fX19XV5dOp3M4nNWrV8PtJkD/pRBrsKysLFdXVz09PW9vb1tbW11dXaFQSN5C9uzZs7Gxsenp6aNGjerrMgF4ZwoRsPDw8MmTJyclJXXcjtq1a9e8efMiIiKuXr3aJ7VlZmYmJiZS97l3756ZmZl86lFibW1tXV7bQ0tLq3/9YIqQ57V7pRkyZMiPP/4oupSVhNu3b/v4+NTW1nY5TmFhIcWedFxc3IkTJzw8PEQtqampZ8+epR7zwYMHmZmZXb61g4MD9RGw9PR0Op0+ceJEij63bt0iCMLV1ZWizx9//MHj8aivgZGZmfnmzRvytjjSPHr0iMvl/utf/+p0akha2n0Li5NNTSUlJdSXW87Pz8/Pz/f29qboU1xcnJWVNXPmTIo+FRUVv/32G0UH0uDBg+fMmUPdx8LC4ptvvulyKPlQiDWYtbV1WlqatIClpqba2Nh0Zxw6nU5xaMTT09PBwUG8RV9fv8ur4Q8aNGjSpEksFouiT3V1NY/HMzQ0pOjDZDKbm5upD4SwWKw3b96YmppS9GGz2a9fvzY3N6foY2RkxOVyqe/kZmxsXF5ebmVl1elUrfv32Wz2dA6npKTE2tqaYhxzc3MOh0PdZ9iwYaamptR9LC0tDQwM7OzsKPoIBIInT550+Sej/kPImUKswZKSkgICAjw9Pf39/e3s7HR0dAiCIPfBzp8/f+HChTNnzkiLH8AiIADNno0oL9EDukMh1mCzZs1KTk7esWPHwoULxdsJgnBzc0tOToabQoB+SiHWYCK1tbXl5eXkVbtZLJaRkZGuri6+t0tJScnKyur9TnN1dTWfz2ez2b0cp66urqGhwcTEpJfjNDU1VVZW9uZeUB6xsc/Hjft7+PDS0lIOh9PLetra2goLC3t/+VqBQFBZWblx48ZejiNPihUwOZs3b97Tp08dHR17OU52dnZzc/OECRN6Oc7Tp08rKys/+OCDXo5TXFycn58/bdq0Ho8wqrj4pZ5eTmPjX3/9RX0AoztqamrS0tKorwnZHY2NjSkpKd053KVAhAPYmjVrtm7d2vtxoqOjIyIiej/O0aNHFy5c2Ptxfv3115kzZ/Z+nPT09A8//LD34zx69GjkyJG9H6ekpMTExKT348iTonyTAwClBAEDACMIGAAYQcAAwAgCBgBGEDAAMIKAAYDRgA6Ympqaurp678dRV1dXU5PBl84UbRw1NTWlHEeeBvQ3OZqbmwmC6P2P+VtaWtrb2xkMRi/H4fF4ra2tWlpavRynvb29oaGh9/fLFQqFtbW1Mvm22uvXr/X09BRnHLkZ0AEDALcBvYkIAG4QMAAwgoABgBEEDACMIGAAYAQBAwAjCBgAGEHAAMAIAgYARhAwADCCgAGAkXIGLCkpydnZWVtbe8qUKQ8fPqTufO3atYsXL0o07tu3b8KECVpaWra2tjExMW1tbX1eUl5enp+fH5PJtLS03Lt3r3zqoVgO7zRHcqhHJCUl5dy5c72sR2b6+KpWGFy6dIkgiJCQkISEBE9PTwaDUVJSIq1ze3u7s7OzxEXXvv32W4RQeHj4pUuXIiMj1dTU1q9f37cl5efnGxgYTJ8+PTExkbxdbVxcHO56KJbDO82RHOoRycvL09TUnDt3bo+LkS0lDJibm5unpyf5uLm52cTEZM2aNR27lZaW7t+/n7zKp/inubW1dfDgwcuXLxe1fPXVVxoaGm1tbX1VklAoDAkJsbe3b21tJZ9OmjTJxcUFaz3Uy6GbcyS3ekg8Hm/s2LEIIcUJmLJtItbW1qanpwcEBJBPNTQ0vLy84uPjO/bMycmJj48XCAR0Ol28vaysrL6+XvxythMnTnz79m1JSUlflcTn88+cOTNv3rz33nuPbElISDh06BDWeiiWQ/fnSD71iFrWr1+vqqpKZkxBKFvAysvLEULid8Gxs7MrLi7m8XgSPadPn37r1q1bt25J3FLIyMiosLBQ/PrVd+7c0dDQ6PGl53tfUllZWU1Nzbhx49ra2nJzc1+9esVisSRuxSTzeiiWQ/fnSD71kE9v3Lixf//+U6dOyeRX6rKibAHjcrkIIfG7hJE3pK2vr+/mCDQazdLSkkajkU9//vnnvXv3fvnllxJrFXmWVFlZiRC6e/eurq6uvb09i8Xy9PQkG/HVQ7Ecej9Hsq0HIVRXVzdv3rzo6Gjqu5DJn7IFTCgUIoQIgpBoUVVVfdehqqqq5s2bN3fu3Llz50ZFRfVhSTU1NQihffv2JSUlNTQ03Lhx4/Hjx8HBwfKpp+NykOFClkk9CKElS5aMGDFiyZIlPSgAq352CZEukbeirKurE7XU1dXRaDSKO192KiUlZcGCBQwG4/z5876+vn1bEtlz69atU6dORQh98MEH69atCwkJqaur68GFN96pnk6Xg6wWsqzqOX369LVr1x4/ftyDd8dN2dZgRkZGBEHk5+eLWgoKCqhv3NpRSkrKjBkz/P39//77716mSyYlDR06FCE0bNgwUQt5C9mqqiqs9UhbDjJZyDKsJyMj4/Xr12w2myAIgiD+/PPPuLg4giAuXLjQs5JkqQ+OXGI2ZcoUPz8/8jGfzydviU3R38rKSvyYOJ/PNzQ0DAwMVJyShELh8OHDV69eLXr69ddfa2lptbe346uHejm86xxhrefp06fXxNjZ2bm7u1+7du3Vq1c9LklWlG0TESEUERHh4+OzefNmd3f3AwcO1NbWfvHFF+Skw4cPp6ennzhxQrSv3NHNmzfLy8vZbPbJkyfF22fPnt3j4xy9LAkhtGHDhsDAQIIgJk2adOvWrZ07d0ZHR6uo9HADpDv13Llzh2I5UIwg/3qsra3Fj20MGTKEzWa7u7v3uB5Z6uuEY5GQkODs7DxkyBB3d/esrCxRO3lgoLGxUbyzxOpC2vklLpfbVyWR4uPjnZ2dBw0a5OjoeOLEid4U0516ulwO0kboq3pEJkyYoDgnmuG6iABgpGwHOQBQKBAwADCCgAGAEQQMAIwgYABgBAEDACMIGAAYQcAAwAgCBgBGEDAAMIKAAYARBAwAjCBgAGAEAQMAIwgYABhBwADACAIGAEYQMAAwgoABgBEEDACMIGAAYAQBAwAjCBgAGEHAAMAIAgYARmdi5qUAAAR9SURBVBAwgBBC+vr6+/fv7+sqlBAEDACMIGADjlAobG9v7+sqBgoImMLJzs729PTU0dFhMpl+fn6lpaVke0NDQ1hYGIfD0dDQsLS03LJli+jGHSYmJrt373ZxcWEwGJaWlgcPHqyoqPDx8dHR0TE3N//ll18QQs+ePSMI4vLly+bm5urq6nZ2dt9//720Gk6ePOnk5MRgMOzt7Y8fP95lbUCqPr67C/hfzc3NLBbLxcUlPj4+NjbW0NBw6tSp5CQ/Pz8dHZ2YmJiLFy+uWLECIfTLL7+Qk4yNjdXV1Tds2JCamurt7U0QhLGx8a5du1JSUpydnel0ekNDQ2FhIUJIQ0Nj0aJF58+fj4iIIAhi48aN5AhMJnPfvn3k4z179pCjpaSkhIWFEQRx4MAB6tqANBAwxZKZmYkQunbtGvmUTAL5eNasWYcOHRL1tLGx+frrr8nHxsbGAQEB5OO8vDyE0IoVK8inly5dQgjl5OSQAZs1a5ZohFWrVmlpadXX1wvFAtbY2Kinp/ftt9+Kui1atMjAwIC6NiANBEyxVFdXa2lpOTg4HD9+vLy8vGOHhoaGrKyso0ePqquriz7fxsbG27dvJx+3tbWJr9zIvD18+JAMWGJiomionJwchFBGRoZQLGAZGRkIobt371b/49SpUwihkpKSLmsDHcE+mGLR09O7fv26ubl5SEiIoaHhmDFjzp07R066c+fOqFGjBg8e7OXllZSUpK+vL/5CVVVV8afvvfdep+OT91MnkTcal9iPKi4uRgi5uLgw/xEYGIgQqquro6gNSAMBUzhjxoy5ePFiTU3NlStXDAwMAgICnj59Wltb6+bm5urqyuVyX758mZKSYmpq2oPBuVyu6HFFRQVCiM1mi3cgc9vx9uEODg7SauvV3Co7CJhiSUhIsLGxaWpq0tDQmDp16sGDB9vb24uKijIzM/l8fnh4uIGBAUKopaXlxYsXPRj/7NmzosdxcXGamprDhw8X72Bvb0+j0ZKTk0UtGzZs8PDwoKith7M6MKj1dQHgfzg6OhYXF8+ePTskJKShoeH48eNMJtPZ2bmhoUFdXX316tXLly+vqamJioqqr6//+++/X79+raen1/3xL168uGzZMi8vr9u3b2/fvj0yMlJbW1u8g76+flhYWEhISEVFxZgxY9LT02NiYnbv3k1Rm4wXgZLpkz0/QCE5OXns2LEMBoPJZH700UcPHz4k20+fPm1jY8NgMJydnZOTk0+ePKmjo7NhwwahUGhsbBwTE0N2Iw9yiA5mSBzkOHfunJeXl7a2trW1dVRUlEAgILuJH6YXCAQxMTH29vbk+k380KW02oA0hPCfk5VAuT179szKyiozM3Ps2LF9XcsAAvtgAGAEAQMAI9hEHCja2tpevnzJZrOlnSIDOEDAAMAINhEBwAgCBgBGEDAAMIKAAYARBAwAjCBgAGAEAQMAIwgYABhBwADACAIGAEYQMAAwgoABgBEEDACMIGAAYAQBAwAjCBgAGEHAAMAIAgYARhAwADCCgAGA0f8DQabc6KztXYcAAAAASUVORK5CYII=" /><!-- --></p>
 </div>
 </div>
 
